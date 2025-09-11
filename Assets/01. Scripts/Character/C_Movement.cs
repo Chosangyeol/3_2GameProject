@@ -18,6 +18,7 @@ public class C_Movement : MonoBehaviour
 
         if (camTransform == null && Camera.main != null)
             camTransform = Camera.main.transform;
+
     }
 
     void OnMove(InputValue v) => moveInput = v.Get<Vector2>();
