@@ -715,6 +715,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: -20
   camTransform: {fileID: 1011008863}
+  testMod: {fileID: 11400000, guid: d782e3ceeae8d8a4fb676f1f364fcf76, type: 2}
 --- !u!114 &526140393
 MonoBehaviour:
   m_ObjectHideFlags: 0

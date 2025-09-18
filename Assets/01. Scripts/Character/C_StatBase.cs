@@ -10,11 +10,10 @@ public class C_StatBase
     public float moveSpeed = 5f;
     public float attackSpeed = 0f;
 
-    public int modingChance = 0;
+    public int modingChance = 2;
 
     public float critChance = 0.1f;
     public float critMultiplier = 1.5f;
-
 
 
     public float rotateSpeed = 2000f;

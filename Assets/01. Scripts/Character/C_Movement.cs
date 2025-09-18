@@ -10,6 +10,8 @@ public class C_Movement : MonoBehaviour
     private Vector2 moveInput;
     private float verticalVel;
 
+    public WeaponModSO testMod;
+
     private void Awake()
     {
         cc = GetComponent<CharacterController>();
@@ -19,6 +21,7 @@ public class C_Movement : MonoBehaviour
         if (camTransform == null && Camera.main != null)
             camTransform = Camera.main.transform;
 
+        stats.weapon = new C_Weapon(Enums.WeaponType.Range);
     }
 
     void OnMove(InputValue v) => moveInput = v.Get<Vector2>();
@@ -42,5 +45,27 @@ public class C_Movement : MonoBehaviour
 
         CollisionFlags flags = cc.Move(velocity * Time.deltaTime);
         if ((flags & CollisionFlags.Below) != 0) verticalVel = -1f;
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            if (!stats.weapon.TryModing(1, testMod, stats, out var reason))
+            {
+                Debug.Log("모드 장착 실패: " + reason);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            if (!stats.weapon.TryUpdradeMod(1, stats, out var reason))
+            {
+                Debug.Log("모드 업그레이드 실패: " + reason);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            stats.weapon.ResetModing(stats);
+            Debug.Log("모드 초기화");
+        }
     }
 }
