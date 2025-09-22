@@ -1,20 +1,36 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class C_Movement : MonoBehaviour
 {
+    [Header("Movement Setting")]
     public C_StatBase stats;
     public float gravity = -20f;
     public Transform camTransform;
+
     private CharacterController cc;
     private Vector2 moveInput;
     private float verticalVel;
 
+    [Header("Dash Setting")]
+    public float dashSpeed = 14f;
+    public float dashDuration = 0.25f;
+    public float invulnDuration = 0.25f;
+    public float cooldown = 1.0f;
+
+    private bool canDash = true;
+    private bool isDashing = false;
+
+    private C_Health hp;
+
+    [Header("테스트 용도")]
     public WeaponModSO testMod;
 
     private void Awake()
     {
         cc = GetComponent<CharacterController>();
+        hp = GetComponent<C_Health>();
         if (stats == null) stats = new C_StatBase();
         stats.InitRuntime();
 
@@ -67,5 +83,39 @@ public class C_Movement : MonoBehaviour
             stats.weapon.ResetModing(stats);
             Debug.Log("모드 초기화");
         }
+    }
+
+    void OnDash()
+    {
+        if (canDash && !isDashing)
+            StartCoroutine(Dash());
+    }
+
+    IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+
+        hp.SetInvulnerable(true);
+
+        float t = 0f;
+        Vector3 forward = transform.forward;
+
+        while (t < dashDuration)
+        {
+            cc.Move(forward * dashSpeed * Time.deltaTime);
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(Mathf.Max(0f, invulnDuration - dashDuration));
+
+        hp.SetInvulnerable(false);
+
+        isDashing = false;
+
+        // 쿨다운
+        yield return new WaitForSeconds(cooldown);
+        canDash = true;
     }
 }
