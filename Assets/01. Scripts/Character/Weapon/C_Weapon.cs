@@ -32,8 +32,9 @@ public class C_Weapon
         }
     }
 
-    public bool TryModing(int modGrade, WeaponModSO weaponMod, C_StatBase owner, out string reason)
+    public bool TryModing(WeaponModSO weaponMod, C_StatBase owner, out string reason)
     {
+        int modGrade = weaponMod.modGrade;
         reason = null;
         if (weaponMod == null)
         {

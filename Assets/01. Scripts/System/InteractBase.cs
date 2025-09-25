@@ -8,12 +8,6 @@ public abstract class InteractBase : MonoBehaviour, IInteractable
     [SerializeField] protected int priority = 0;
     [SerializeField] protected Transform interactTransform;
 
-    [Header("interact 조건")]
-    [SerializeField] protected bool requireFacing = false;
-    [SerializeField, Range(0f, 180f)] protected float facingAngle = 45f;
-    [SerializeField] protected float interactRange = 3f;
-    [SerializeField] protected LayerMask blockerMask;
-
     [Header("이벤트")]
     public UnityEvent onFocused;
     public UnityEvent onUnfocused;
@@ -42,35 +36,4 @@ public abstract class InteractBase : MonoBehaviour, IInteractable
     {
         onInteracted?.Invoke();
     }
-
-    public bool IsValid(Transform interactor)
-    {
-        Vector3 toMe = (InteractTransform.position - interactor.position);
-        if (toMe.sqrMagnitude > interactRange * interactRange) return false;
-
-        if (requireFacing)
-        {
-            Vector3 forward = interactor.forward;
-            float ang = Vector3.Angle(forward, toMe);
-            if (ang > facingAngle) return false;
-        }
-
-        if (blockerMask.value != 0)
-        {
-            if (Physics.Raycast(interactor.position + Vector3.up * 1.5f, toMe.normalized, out RaycastHit hit, toMe.magnitude, blockerMask))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(InteractTransform ? InteractTransform.position : transform.position, interactRange);
-
-    }
-#endif
 }

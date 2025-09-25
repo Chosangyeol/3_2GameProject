@@ -25,18 +25,11 @@ public class C_Interactor : MonoBehaviour
         UpdateDetection();
     }
 
-    public void OnInteract(InputAction.CallbackContext ctx)
+    public void TryInteract()
     {
-        if (!ctx.performed) return;
-        if (current is InteractBase bi)
-        {
-            if (bi.IsValid(transform))
-                current.Interact(transform);
-        }
-        else
-        {
-            current?.Interact(transform);
-        }
+        if (current == null) return;
+
+        current.Interact(transform);
     }
 
     private void UpdateDetection()
@@ -52,11 +45,6 @@ public class C_Interactor : MonoBehaviour
 
             IInteractable it = col.GetComponentInParent<IInteractable>();
             if (it == null) continue;
-
-            // 유효성(거리/각도/시야) 먼저 체크
-            bool valid = true;
-            if (it is InteractBase bi && !bi.IsValid(transform)) valid = false;
-            if (!valid) continue;
 
             // 점수: 우선순위 + 화면 중앙과의 정렬
             Vector3 dir = (it.InteractTransform.position - eye.position).normalized;

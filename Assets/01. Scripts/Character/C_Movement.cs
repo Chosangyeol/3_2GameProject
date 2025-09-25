@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class C_Movement : MonoBehaviour
 {
     [Header("Movement Setting")]
-    public C_StatBase stats;
+    private C_StatBase stats;
     public float gravity = -20f;
     public Transform camTransform;
 
@@ -31,31 +31,36 @@ public class C_Movement : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         hp = GetComponent<C_Health>();
-        if (stats == null) stats = new C_StatBase();
-        stats.InitRuntime();
+        stats = gameObject.GetComponent<C_Health>().stats;
+        
 
         if (camTransform == null && Camera.main != null)
             camTransform = Camera.main.transform;
 
-        stats.weapon = new C_Weapon(Enums.WeaponType.Range);
+        if (stats.weapon == null)
+            stats.weapon = new C_Weapon(Enums.WeaponType.Range);
     }
-
-    void OnMove(InputValue v) => moveInput = v.Get<Vector2>();
 
     private void Update()
     {
-        Vector3 camF = camTransform.forward; camF.y = 0f; camF.Normalize();
-        Vector3 camR = camTransform.right; camR.y = 0f; camR.Normalize();
+        Vector3 camF = camTransform ? camTransform.forward : transform.forward;
+        camF.y = 0f; camF.Normalize();
+        Vector3 camR = camTransform ? camTransform.right : transform.right;
+        camR.y = 0f; camR.Normalize();
 
         Vector3 wishDir = camF * moveInput.y + camR * moveInput.x;
         bool hasInput = wishDir.sqrMagnitude > 0.0001f;
 
+        // 회전
         if (hasInput)
         {
             Quaternion targetRot = Quaternion.LookRotation(wishDir);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, stats.rotateSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation, targetRot, stats.rotateSpeed * Time.deltaTime
+            );
         }
 
+        // 중력 & 이동
         verticalVel += gravity * Time.deltaTime;
         Vector3 velocity = wishDir.normalized * stats.moveSpeed + Vector3.up * verticalVel;
 
@@ -64,7 +69,7 @@ public class C_Movement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            if (!stats.weapon.TryModing(1, testMod, stats, out var reason))
+            if (!stats.weapon.TryModing(testMod, stats, out var reason))
             {
                 Debug.Log("모드 장착 실패: " + reason);
             }
@@ -85,10 +90,14 @@ public class C_Movement : MonoBehaviour
         }
     }
 
-    void OnDash()
+    public void Move(Vector2 move) => moveInput = move;
+
+    public void TryDash()
     {
         if (canDash && !isDashing)
+        {
             StartCoroutine(Dash());
+        }
     }
 
     IEnumerator Dash()
@@ -114,7 +123,6 @@ public class C_Movement : MonoBehaviour
 
         isDashing = false;
 
-        // 쿨다운
         yield return new WaitForSeconds(cooldown);
         canDash = true;
     }

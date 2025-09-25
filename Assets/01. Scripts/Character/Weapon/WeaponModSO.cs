@@ -13,6 +13,8 @@ public class WeaponModSO : ScriptableObject
 {
     public Enums.WeaponModType modType;
     public Enums.WeaponType allowedWeaponType;
+    public string modName;
+    public int modGrade;
     public int maxLevel = 2;
 
     [Header("공격력 증가")]
