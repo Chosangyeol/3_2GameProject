@@ -1,4 +1,5 @@
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
+using Player;
 using UnityEngine;
 
 public class WeaponUI : MonoBehaviour
@@ -13,7 +14,7 @@ public class WeaponUI : MonoBehaviour
     #region Weapon Moding UI
     public void UpdateWeaponState(Transform interacter)
     {
-        C_Weapon weapon = interacter.GetComponent<C_Health>().stats.weapon;
+        C_Weapon weapon = interacter.GetComponent<C_Model>().GetStat().weapon;
         Debug.Log("무기 타입 : " + weapon.weaponType.ToString());
         Debug.Log("무기 데미지 : " + weapon.weaponDamage);
         Debug.Log("무기 레벨 : " + weapon.weaponLevel);

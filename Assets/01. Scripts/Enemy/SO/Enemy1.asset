@@ -13,13 +13,10 @@ MonoBehaviour:
   m_Name: Enemy1
   m_EditorClassIdentifier: 
   enemyName: Enemy1
-  cost: 20
-  weight: 2
-  spawnCount: 3
-  baseHp: 100
-  baseDamage: 100
+  maxHp: 100
+  enemyType: 0
+  damage: 3
   attackRange: 3
-  patrolRange: 4
   detectRange: 6
   moveSpeed: 4
   attackSpeed: 2

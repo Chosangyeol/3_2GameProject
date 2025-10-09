@@ -33,7 +33,7 @@ public class RangedAttack : IAttackBehavior
         proj.GetComponent<Projectile>().damage = enemy.GetStat().totalDamage;
         proj.transform.position = firePos.position;
         Vector3 targetPos = enemy.player.GetComponent<Collider>().bounds.center;
-        proj.GetComponent<Rigidbody>().velocity =
+        proj.GetComponent<Rigidbody>().linearVelocity =
             (targetPos - firePos.position).normalized * proj.GetComponent<Projectile>().speed;
     }
 }

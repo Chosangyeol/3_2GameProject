@@ -4,12 +4,15 @@ using UnityEngine;
 public class NpcSO : ScriptableObject
 {
     public string npcName;
+
+    [SerializeField]
     public Dialog[] dialog;
 
 }
 
-[SerializeField]
+[System.Serializable]
 public class Dialog
 {
+    [TextArea(2, 5)]
     public string[] sentences;
 }

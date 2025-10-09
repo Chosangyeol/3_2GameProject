@@ -22,11 +22,7 @@ public class State_Chase : IState
     {
         float dist = Vector3.Distance(enemy.transform.position, enemy.player.position);
 
-        if (dist > enemy.enemySO.detectRange * 1.2f)
-        {
-            fsm.ChangeState(new State_Patrol(enemy, fsm));
-        }
-        else if (dist <= enemy.enemySO.attackRange)
+        if (dist <= enemy.enemySO.attackRange)
         {
             fsm.ChangeState(new State_Attack(enemy, fsm));
         }

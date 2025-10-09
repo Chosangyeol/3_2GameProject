@@ -25,17 +25,24 @@ public class EnemyBase : PoolableMono
 
 
     #region Unity Event
-    private void Awake()
+    public virtual void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        if (enemySO != null && GetStat() == null)
+        {
+            Reset();
+        }
+
         fsm = new StateMachine();
     }
 
     private void Start()
     {
+        fsm.ChangeState(new State_Idle(this, fsm));
 
     }
 
@@ -51,13 +58,14 @@ public class EnemyBase : PoolableMono
 
     public virtual void OnEnable()
     {
-        fsm.ChangeState(new State_Patrol(this, fsm));
+
     }
     #endregion
 
     public override void Reset()
     {
         Stat = new EnemyStat(enemySO);
+
     }
 
     public EnemyStat GetStat()
@@ -68,8 +76,7 @@ public class EnemyBase : PoolableMono
     public void StartAttack()
     {
         if (Time.time - lastAttackTime >= Stat.attackSpeed)
-        {
-            
+        {       
             attackBehavior.ExecuteAttack(this);
             lastAttackTime = Time.time;
         }

@@ -4,13 +4,20 @@ public class Enums : MonoBehaviour
 {
     public enum WeaponType
     {
-        Range,
-        Melee
+        None,
+        Melee,
+        Range
     }
 
     public enum WeaponModType
     {
-        RangeMod,
-        MeleeMod
+        MeleeMod,
+        RangeMod
     }    
+
+    public enum EnemyType
+    {
+        Melee,
+        Ranged
+    }
 }
