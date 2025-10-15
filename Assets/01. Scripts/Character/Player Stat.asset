@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Player Stat
   m_EditorClassIdentifier: 
   maxHp: 100
-  moveSpeed: 5
+  moveSpeed: 8
   critChance: 0.1
   critMultiplier: 1.5

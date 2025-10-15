@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: ProjectileList
   m_EditorClassIdentifier: 
   PoolList:
-  - Prefab: {fileID: 203203734673528485, guid: 573b6e28c424c45489813d3f142ef834, type: 3}
+  - Prefab: {fileID: 4841173355137483256, guid: 6414cdb530ddb9548b7ccd38d3150f52, type: 3}
+    Count: 3
+  - Prefab: {fileID: 4841173355137483256, guid: 7593a65e58d2ca44794f138c38c0f223, type: 3}
     Count: 3

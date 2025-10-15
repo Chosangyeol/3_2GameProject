@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c25e1c1a972d59c40b63a06f1904a2ce, type: 3}
-  m_Name: RangeTest3
+  m_Name: Melee1_3
   m_EditorClassIdentifier: 
-  modType: 1
-  allowedWeaponType: 2
-  modName: "\uC6D0\uAC70\uB9AC \uD14C\uC2A4\uD2B8\uC6A91"
+  modType: 0
+  allowedWeaponType: 1
+  modName: "\uCC3D"
+  modDesc: "\uCC3D"
   modGrade: 3
   maxLevel: 2
   addDamageLv1: 2

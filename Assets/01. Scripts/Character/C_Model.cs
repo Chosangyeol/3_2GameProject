@@ -14,8 +14,6 @@ namespace Player
         protected C_StatBase statBase;
 
         [Header("Attack")]
-        protected PoolableMono _bulletPrefab;
-        protected Transform _bulletFireTr;
         protected float _attackDelay;
 
         protected C_Inventory _inventory;
@@ -30,7 +28,8 @@ namespace Player
 
         [HideInInspector]
         public CharacterController cc;
-        protected bool canAttack = true;
+        public bool canAttack = false;
+        public bool canMove = true;
 
         public C_Inventory Inventory { get => _inventory; }
         public C_WeaponSystem WeaponSystem { get => _weaponSystem; }
@@ -53,6 +52,8 @@ namespace Player
             if (statBase == null) statBase = new C_StatBase(statSO);
             _inventory = new C_Inventory(this);
             _weaponSystem = new C_WeaponSystem(this);
+
+            canAttack = false;
         }
 
         protected virtual void Start()

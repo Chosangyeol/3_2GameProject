@@ -5,7 +5,6 @@ public class C_StatBase
     public C_StatBaseSO statBaseSO;
     public float maxHp;
     public float curHp;
-    public C_Weapon weapon;
     public float damage;
     public float moveSpeed;
     public float attackSpeed;
@@ -34,7 +33,7 @@ public class C_StatBase
         this.critChance = 0.1f;
         this.critMultiplier = 1.5f;
         this.rotateSpeed = 2000f;
-        this.weapon = new C_Weapon(Enums.WeaponType.None);
+
     }
 
     public void InitRuntime()

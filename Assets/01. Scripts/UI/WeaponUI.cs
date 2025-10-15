@@ -1,34 +1,88 @@
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
 using Player;
+using TMPro;
 using UnityEngine;
 
 public class WeaponUI : MonoBehaviour
 {
     private GameObject player;
+    public GameObject weaponSelectUI;
+    public GameObject moddingUI;
+
+    public GameObject meleeModsPanel;
+    public GameObject rangeModsPanel;
+
+    public TMP_Text modName;
+    public TMP_Text modDesc;
+
 
     public void OnEnable()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         UpdateWeaponState(player.transform);
     }
+
+    public void OnDisable()
+    {
+        player = null;
+        moddingUI.SetActive(false);
+        weaponSelectUI.SetActive(false);
+    }
+
+    public void ExitModding()
+    {
+        this.gameObject.SetActive(false);
+    }
+
+    public void CreateRangeWeapon()
+    {
+        player.GetComponent<C_Model>().WeaponSystem.CreateWeapon(Enums.WeaponType.Range);
+        weaponSelectUI.SetActive(false);
+        UpdateWeaponState(player.transform);
+    }
+
+    public void CreateMeleeWeapon()
+    {
+        player.GetComponent<C_Model>().WeaponSystem.CreateWeapon(Enums.WeaponType.Melee);
+        weaponSelectUI.SetActive(false);
+        UpdateWeaponState(player.transform);
+    }
+
     #region Weapon Moding UI
     public void UpdateWeaponState(Transform interacter)
     {
-        C_Weapon weapon = interacter.GetComponent<C_Model>().GetStat().weapon;
-        Debug.Log("무기 타입 : " + weapon.weaponType.ToString());
-        Debug.Log("무기 데미지 : " + weapon.weaponDamage);
-        Debug.Log("무기 레벨 : " + weapon.weaponLevel);
-        for (int i = 1; i < 5; i++)
+        if (interacter.GetComponent<C_Model>().WeaponSystem.CurrentWeapon == null)
         {
-            if (weapon.weaponModded.ContainsKey(i))
-            {
-                Debug.Log(i + "번 모드 : " + weapon.weaponModded[1].weaponMod.modName);
-            }
-            else
-            {
-                Debug.Log(i + "번 모드 : 없음");
-            }
+            weaponSelectUI.SetActive(true);
+        }
+        else
+        {
+            OpenModdingUI(interacter);
+        }  
+    }
+
+    public void OpenModdingUI(Transform interacter)
+    {
+        weaponSelectUI.SetActive(false);
+        moddingUI.SetActive(true);
+
+        if (player.GetComponent<C_Model>().WeaponSystem.CurrentWeapon.weaponType == Enums.WeaponType.Melee)
+        {
+            rangeModsPanel.SetActive(false);
+             meleeModsPanel.SetActive(true);
+        }
+        else if (player.GetComponent<C_Model>().WeaponSystem.CurrentWeapon.weaponType == Enums.WeaponType.Range)
+        {
+            rangeModsPanel.SetActive(true);
+            meleeModsPanel.SetActive(false);
         }
     }
+
+    public void SelectMod(WeaponModSO modSO)
+    {
+        modName.text = modSO.modName;
+        modDesc.text = modSO.modDesc;
+    }
+
     #endregion
 }

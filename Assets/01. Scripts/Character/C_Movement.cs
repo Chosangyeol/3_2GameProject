@@ -51,11 +51,14 @@ namespace Player
             }
 
             // 중력 & 이동
-            verticalVel += gravity * Time.deltaTime;
-            Vector3 velocity = wishDir.normalized * _model.GetStat().moveSpeed + Vector3.up * verticalVel;
+            if (_model.canMove)
+            {
+                verticalVel += gravity * Time.deltaTime;
+                Vector3 velocity = wishDir.normalized * _model.GetStat().moveSpeed + Vector3.up * verticalVel;
 
-            CollisionFlags flags = _model.cc.Move(velocity * Time.deltaTime);
-            if ((flags & CollisionFlags.Below) != 0) verticalVel = -1f;
+                CollisionFlags flags = _model.cc.Move(velocity * Time.deltaTime);
+                if ((flags & CollisionFlags.Below) != 0) verticalVel = -1f;
+            }         
         }
 
         public void Move(Vector2 move) => moveInput = move;

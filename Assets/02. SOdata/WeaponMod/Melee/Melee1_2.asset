@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c25e1c1a972d59c40b63a06f1904a2ce, type: 3}
-  m_Name: MeleeTest2
+  m_Name: Melee1_2
   m_EditorClassIdentifier: 
   modType: 0
   allowedWeaponType: 1
-  modName: "\uADFC\uAC70\uB9AC \uD14C\uC2A4\uD2B8\uC6A92"
+  modName: "\uAC80"
+  modDesc: "\uAC80"
   modGrade: 2
   maxLevel: 2
   addDamageLv1: 2

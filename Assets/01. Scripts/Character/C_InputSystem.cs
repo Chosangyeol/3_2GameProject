@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 namespace Player
 {
@@ -28,7 +29,11 @@ namespace Player
                 DashAction.action.started += OnDashStart;
 
             if (AttackAction && AttackAction.action != null)
-                AttackAction.action.started += OnAttack;
+            { 
+                AttackAction.action.started += OnAttackStart;
+                AttackAction.action.canceled += OnAttackEnd;
+
+            }
 
             if (InteractAction && InteractAction.action != null)
                 InteractAction.action.started += OnInteract;
@@ -37,7 +42,7 @@ namespace Player
         private void Update()
         {
             Vector2 mv = MoveAction && MoveAction.action != null ? MoveAction.action.ReadValue<Vector2>() : Vector2.zero;
-            if (pMove) pMove.Move(mv);
+            if (pMove && _model.canMove) pMove.Move(mv);
         }
 
         private void OnDashStart(InputAction.CallbackContext c)
@@ -45,9 +50,30 @@ namespace Player
             pMove?.TryDash();
         }
 
-        private void OnAttack(InputAction.CallbackContext c)
+        private void OnAttackStart(InputAction.CallbackContext c)
         {
-            _model.WeaponSystem.Attack();
+            var weapon = _model.WeaponSystem.CurrentWeapon;
+            if (weapon == null || !_model.canAttack) return;
+
+            if (weapon.isChargeWeapon && weapon.attackBehavior is BowAttackBehavior charge)
+            {
+                charge.BeginCharge(_model);
+            }
+            else
+            {
+                _model.WeaponSystem.Attack();
+            }
+        }
+
+        private void OnAttackEnd(CallbackContext c)
+        {
+            var weapon = _model.WeaponSystem.CurrentWeapon;
+            if (weapon == null || !_model.canAttack) return;
+
+            if (weapon.isChargeWeapon && weapon.attackBehavior is BowAttackBehavior charge)
+            {
+                charge.ReleaseCharge(_model);
+            }
         }
 
         private void OnInteract(InputAction.CallbackContext c)
@@ -65,5 +91,3 @@ namespace Player
         }
     }
 }
-
-

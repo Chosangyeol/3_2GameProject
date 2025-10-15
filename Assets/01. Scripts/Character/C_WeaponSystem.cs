@@ -9,22 +9,36 @@ namespace Player.Weapon
         private readonly C_Model _model;
         private C_Weapon currentWeapon;
 
+        public C_Weapon CurrentWeapon { get => currentWeapon; }
+
         public const int MinGrade = 1;
         public const int MaxGrade = 4;
 
         public C_WeaponSystem(C_Model model)
         {
             this._model = model;
-            if (model.GetStat().weapon != null)
-            {
-                this.currentWeapon = model.GetStat().weapon;
-            }
             return;
         }
 
+
+
         public void Attack()
         {
-            Debug.Log("АјАн : " + currentWeapon.weaponType + " / " + currentWeapon.weaponDamage);
+            if (!_model.canAttack)
+                return;
+            currentWeapon.attackBehavior.Execute(_model, currentWeapon);
+        }
+
+        public void CreateWeapon(WeaponType weaponType)
+        {
+            if (weaponType == WeaponType.Range)
+            {
+                currentWeapon = new C_Weapon(WeaponType.Range);
+            }
+            else if (weaponType == WeaponType.Melee)
+            {
+                currentWeapon = new C_Weapon(WeaponType.Melee);
+            }
         }
 
         #region Weapon Moding
@@ -105,6 +119,16 @@ namespace Player.Weapon
             currentWeapon.weaponLevel = 1;
             currentWeapon.weaponModded.Clear();
             Recalculate(owner);
+        }
+
+        public void ResetWeapon()
+        {
+            if (currentWeapon != null)
+            {
+                ResetModing(_model.GetStat());
+                currentWeapon = null;
+            }
+            else return;         
         }
 
         public void Recalculate(C_StatBase owner)

@@ -14,6 +14,7 @@ public class WeaponModSO : ScriptableObject
     public Enums.WeaponModType modType;
     public Enums.WeaponType allowedWeaponType;
     public string modName;
+    public string modDesc;
     public int modGrade;
     public int maxLevel = 2;
 

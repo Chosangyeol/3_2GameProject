@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class EnemyBase : PoolableMono
 {
@@ -19,10 +20,11 @@ public class EnemyBase : PoolableMono
     [HideInInspector]
     public Transform player;
 
+    public UnityEvent<float, float> onHealthChanged;
+
     public IAttackBehavior attackBehavior;
 
     private StateMachine fsm;
-
 
     #region Unity Event
     public virtual void Awake()
@@ -85,6 +87,7 @@ public class EnemyBase : PoolableMono
     public void TakeDamage(float amount)
     {
         Stat.curHp -= amount;
+        onHealthChanged?.Invoke(Stat.curHp, Stat.maxHp);
         if (Stat.curHp <= 0)
         {
             Die();
@@ -93,6 +96,7 @@ public class EnemyBase : PoolableMono
     
     public void Die()
     {
-        PoolManager.Instance.Push(this);
+        //PoolManager.Instance.Push(this);
+        Destroy(this.gameObject);
     }
 }

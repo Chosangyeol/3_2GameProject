@@ -11,7 +11,7 @@ public class MeleeAttack : IAttackBehavior
 {
     public void ExecuteAttack(EnemyBase enemy)
     {
-        enemy.anim.SetTrigger("Attack");
+        //enemy.anim.SetTrigger("Attack");
     }
 }
 
@@ -27,13 +27,13 @@ public class RangedAttack : IAttackBehavior
     }
     public void ExecuteAttack(EnemyBase enemy)
     {
-        enemy.anim.SetTrigger("RangeAttack");
+        //enemy.anim.SetTrigger("RangeAttack");
         PoolableMono proj = PoolManager.Instance.Pop(projectile.gameObject.name);
-        proj.GetComponent<Projectile>().owner = enemy;
-        proj.GetComponent<Projectile>().damage = enemy.GetStat().totalDamage;
+        proj.GetComponent<EnemyProjectile>().owner = enemy;
+        proj.GetComponent<EnemyProjectile>().damage = enemy.GetStat().totalDamage;
         proj.transform.position = firePos.position;
         Vector3 targetPos = enemy.player.GetComponent<Collider>().bounds.center;
         proj.GetComponent<Rigidbody>().linearVelocity =
-            (targetPos - firePos.position).normalized * proj.GetComponent<Projectile>().speed;
+        (targetPos - firePos.position).normalized * proj.GetComponent<EnemyProjectile>().speed;
     }
 }
