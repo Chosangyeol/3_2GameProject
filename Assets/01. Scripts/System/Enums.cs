@@ -9,6 +9,16 @@ public class Enums : MonoBehaviour
         Range
     }
 
+    public enum AllWeaponType
+    {
+        Bow,
+        Staff,
+        CrossBow,
+        Blade,
+        GiantBlade,
+        Spear
+    }
+
     public enum WeaponModType
     {
         MeleeMod,

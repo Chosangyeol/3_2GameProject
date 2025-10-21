@@ -9,16 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c25e1c1a972d59c40b63a06f1904a2ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 27c4d97cbd111f44db18f2dc54d08950, type: 3}
   m_Name: Range1_2
   m_EditorClassIdentifier: 
   modType: 1
   allowedWeaponType: 2
   modName: "\uD65C"
-  modDesc: "\uD65C"
-  modGrade: 2
+  modDesc: "\uD65C \uC124\uBA85"
+  modGrade: 1
   maxLevel: 2
-  addDamageLv1: 2
-  addDamageLv2: 4
-  addAttackSpeedLv1: 1.1
-  addAttackSpeedLv2: 1.2
+  changeType: 0

@@ -65,19 +65,19 @@ namespace Player
         {
             if (Input.GetKeyDown(KeyCode.O) && weaponindex1 < 4)
             {
-                WeaponSystem.TryModing(modList1[weaponindex1], statBase, out reason);
+                WeaponSystem.TryModing(modList1[weaponindex1], _weaponSystem.CurrentWeapon, out reason);
                 weaponindex1++;
             }
 
             if (Input.GetKeyDown(KeyCode.P) && weaponindex2 < 4)
             {
-                WeaponSystem.TryModing(modList2[weaponindex2], statBase, out reason);
+                WeaponSystem.TryModing(modList2[weaponindex2], _weaponSystem.CurrentWeapon, out reason);
                 weaponindex2++;
             }
 
             if (Input.GetKeyDown(KeyCode.I))
             {
-                WeaponSystem.ResetModing(statBase);
+                WeaponSystem.ResetModing(_weaponSystem.CurrentWeapon);
             }
 
             if (Input.GetKeyDown(KeyCode.L))

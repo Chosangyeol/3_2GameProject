@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using Player;
+using System.Collections.Generic;
 using UnityEngine;
 using static Enums;
 
@@ -42,7 +44,7 @@ namespace Player.Weapon
         }
 
         #region Weapon Moding
-        public bool TryModing(WeaponModSO weaponMod, C_StatBase owner, out string reason)
+        public bool TryModing(WeaponModSO weaponMod, C_Weapon weapon, out string reason)
         {
             int modGrade = weaponMod.modGrade;
             reason = null;
@@ -70,22 +72,23 @@ namespace Player.Weapon
                 return false;
             }
 
-            if (owner.modingChance <= 0)
+            if (_model.GetStat().modingChance <= 0)
             {
                 reason = "모딩 기회가 없음";
                 return false;
             }
 
             currentWeapon.weaponModded.Add(modGrade, new WeaponModInstance { weaponMod = weaponMod, level = 1 });
-            owner.modingChance--;
+            _model.GetStat().modingChance--;
             currentWeapon.weaponLevel++;
+            weaponMod.ApplyMod(currentWeapon, _model.GetStat(), currentWeapon.weaponModded[modGrade].level);
             Debug.Log("착용한 모드 : " + weaponMod.modName);
-            Recalculate(owner);
+            Recalculate(weapon);
             return true;
 
         }
 
-        public bool TryUpdradeMod(int modGrade, C_StatBase owner, out string reason)
+        public bool TryUpdradeMod(int modGrade, C_Weapon weapon, out string reason)
         {
             reason = null;
             if (!currentWeapon.weaponModded.TryGetValue(modGrade, out var inst))
@@ -98,24 +101,24 @@ namespace Player.Weapon
                 reason = "모드가 이미 최대 레벨임";
                 return false;
             }
-            if (owner.modingChance <= 0)
+            if (_model.GetStat().modingChance <= 0)
             {
                 reason = "모딩 기회가 없음";
                 return false;
             }
 
             inst.level++;
-            owner.modingChance--;
+            _model.GetStat().modingChance--;
             currentWeapon.weaponLevel++;
-            Recalculate(owner);
+            Recalculate(weapon);
             return true;
         }
 
-        public void ResetModing(C_StatBase owner)
+        public void ResetModing(C_Weapon owner)
         {
             int returnChance = 0;
             returnChance = currentWeapon.weaponLevel - 1;
-            owner.modingChance += returnChance;
+            _model.GetStat().modingChance += returnChance;
             currentWeapon.weaponLevel = 1;
             currentWeapon.weaponModded.Clear();
             Recalculate(owner);
@@ -125,13 +128,26 @@ namespace Player.Weapon
         {
             if (currentWeapon != null)
             {
-                ResetModing(_model.GetStat());
+
                 currentWeapon = null;
             }
             else return;         
         }
 
-        public void Recalculate(C_StatBase owner)
+        public void ApplyMods(ref List<GameObject> projectiles, float speed)
+        {
+            var weapon = CurrentWeapon;
+            if (weapon == null || weapon.weaponModded.Count == 0)
+                return;
+
+            foreach (var kv in weapon.weaponModded)
+            {
+                var mod = kv.Value.weaponMod;
+                mod.OnFire(weapon, ref projectiles,speed);
+            }
+        }
+
+        public void Recalculate(C_Weapon owner)
         {
             float baseDamage = (currentWeapon.weaponType == Enums.WeaponType.Range) ? 5f : 7f;
             float addDamege = 0f;
@@ -143,16 +159,15 @@ namespace Player.Weapon
                 var mod = inst.weaponMod;
                 int lv = inst.level;
 
-                addDamege += (lv == 2 ? mod.addDamageLv2 : mod.addDamageLv1);
-                attackSpeedM *= (lv == 2 ? mod.addAttackSpeedLv2 : mod.addAttackSpeedLv1);
+                mod.ApplyMod(currentWeapon, _model.GetStat(), lv);
 
             }
 
             currentWeapon.weaponDamage = baseDamage + addDamege;
-            owner.damage = currentWeapon.weaponDamage;
-            owner.attackSpeed = 1f * attackSpeedM;
-            Debug.Log(owner.damage);
-            Debug.Log(owner.attackSpeed);
+            owner.weaponDamage = currentWeapon.weaponDamage;
+            owner.weaponAttackSpeed = 1f * attackSpeedM;
+            Debug.Log(owner.weaponDamage);
+            Debug.Log(owner.weaponAttackSpeed);
             Debug.Log(currentWeapon.weaponLevel);
         }
         #endregion

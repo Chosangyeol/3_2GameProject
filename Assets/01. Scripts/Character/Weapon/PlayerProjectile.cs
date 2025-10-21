@@ -6,6 +6,7 @@ public class PlayerProjectile : PoolableMono
     [HideInInspector]
     public float damage;
     public float speed;
+    public float damageMultiplier = 1f;
 
     public override void Reset()
     {
@@ -18,7 +19,7 @@ public class PlayerProjectile : PoolableMono
         if (other.CompareTag("Enemy"))
         {
             Debug.Log("Рћ РћСп / " + damage );
-            other.GetComponent<EnemyBase>().TakeDamage(damage);
+            other.GetComponent<EnemyBase>().TakeDamage(damage * damageMultiplier);
             PoolManager.Instance.Push(this);
         }
 

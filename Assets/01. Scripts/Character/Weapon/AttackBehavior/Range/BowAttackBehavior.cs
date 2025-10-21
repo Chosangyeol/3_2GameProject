@@ -1,6 +1,8 @@
-﻿using Player;
-using UnityEngine;
+﻿using NUnit.Framework;
+using Player;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class BowAttackBehavior : IPlayerAttackBe
 {
@@ -67,10 +69,14 @@ public class BowAttackBehavior : IPlayerAttackBe
     // 실제 화살 발사
     private void FireArrow(C_Model attacker)
     {
-        
+        float totalDamage = attacker.WeaponSystem.CurrentWeapon.weaponDamage + attacker.GetStat().damage;
+
         float ratio = Mathf.Clamp01(currentCharge / maxChargeTime);
         float finalSpeed = Mathf.Lerp(speed, speed*maxSpeed, ratio);
-        float finalDamage = Mathf.Lerp(attacker.WeaponSystem.CurrentWeapon.weaponDamage, attacker.WeaponSystem.CurrentWeapon.weaponDamage * 1.7f, ratio);
+        float finalDamage = Mathf.Lerp(
+            totalDamage,
+            totalDamage * 1.7f,
+            ratio);
 
         Vector3 dir = GetMouseDirection(attacker);
         attacker.transform.forward = dir;
@@ -80,11 +86,21 @@ public class BowAttackBehavior : IPlayerAttackBe
         proj.transform.rotation = Quaternion.LookRotation(dir);
 
         Rigidbody rb = proj.GetComponent<Rigidbody>();
-        rb.linearVelocity = dir * finalSpeed;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
 
         // ProjectileDamage 컴포넌트가 있다면 데미지 전달
         if (proj.TryGetComponent(out PlayerProjectile pd))
             pd.damage = finalDamage;
+
+        List<GameObject> projectiles = new List<GameObject> { proj.gameObject };
+        attacker.WeaponSystem.ApplyMods(ref projectiles, finalSpeed);
+
+        foreach (var p in projectiles)
+        {
+            if (p.TryGetComponent(out Rigidbody rb2))
+                rb2.linearVelocity = p.transform.forward * finalSpeed;
+        }
 
         Debug.Log($" 차지 발사! (속도: {finalSpeed:F1}, 데미지: {finalDamage:F1})");
         attacker.canMove = true;
