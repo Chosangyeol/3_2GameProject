@@ -14,11 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modType: 0
   allowedWeaponType: 1
-  modName: "\uCC3D"
-  modDesc: "\uCC3D"
-  modGrade: 3
+  modName: "\uAC801-3"
+  modDesc: "\uAC801-3 \uC124\uBA85"
+  modGrade: 1
   maxLevel: 2
-  addDamageLv1: 2
-  addDamageLv2: 4
-  addAttackSpeedLv1: 1.1
-  addAttackSpeedLv2: 1.2

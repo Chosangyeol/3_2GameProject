@@ -10,7 +10,7 @@ public class WeaponModInstance
     public int level;
 }
 
-[CreateAssetMenu(fileName = "New WeaponMod", menuName = "WeaponMod")]
+[CreateAssetMenu(fileName = "New WeaponMod", menuName = "WeaponMod/WeaponMod-Default")]
 public class WeaponModSO : ScriptableObject
 {
     public Enums.WeaponModType modType;
@@ -21,6 +21,6 @@ public class WeaponModSO : ScriptableObject
     public int maxLevel = 2;
 
     public virtual void ApplyMod(C_Weapon weapon, C_StatBase owner, int level) { }
-    public virtual void OnFire(C_Weapon weapon, ref List<GameObject> projectiless, float speed) { }
+    public virtual void OnFire(C_Weapon weapon, ref List<GameObject> projectiless, float speed, int level) { }
 
 }

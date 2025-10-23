@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c25e1c1a972d59c40b63a06f1904a2ce, type: 3}
-  m_Name: Melee1_2
+  m_Name: Melee3_3
   m_EditorClassIdentifier: 
   modType: 0
   allowedWeaponType: 1
-  modName: "\uAC801-2"
-  modDesc: "\uAC801-2 \uC124\uBA85"
-  modGrade: 1
+  modName: "\uAC803-3"
+  modDesc: "\uAC803-3 \uC124\uBA85"
+  modGrade: 3
   maxLevel: 2

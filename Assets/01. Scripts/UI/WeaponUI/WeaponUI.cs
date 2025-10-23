@@ -6,38 +6,55 @@ using UnityEngine;
 using System.Collections.Generic;
 using Player.Weapon;
 using UnityEngine.UI;
+using System;
 
 public class WeaponUI : MonoBehaviour
 {
+    public static WeaponUI Instance;
+
     private C_Model _model;
     private string reason;
 
     public GameObject weaponSelectUI;
     public GameObject moddingUI;
 
-    public GameObject meleeParent;
-    public GameObject rangeParent;
-    public GameObject[] meleeButtons;
-    public GameObject[] rangeButtons;
-
-    public GameObject meleeModsPanel;
-    public GameObject rangeModsPanel;
+    public GameObject Grade1Button;
+    public GameObject Grade2Button;
+    public GameObject Grade3Button;
+    public GameObject Grade4Button;
 
     public WeaponModSO selectMod;
 
+    public List<WeaponModSO> meleeMods;
+    public List<WeaponModSO> rangeMods;
+
     public List<WeaponModSO> bowMods;
+
+    public event Action OnSelectMod;
+    public event Action OnTryModding;
 
     public TMP_Text modName;
     public TMP_Text modDesc;
 
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
-    public void OnEnable()
+    private void OnEnable()
     {
         _model = GameObject.FindGameObjectWithTag("Player").GetComponent<C_Model>();
         UpdateWeaponState(_model.transform);
     }
 
-    public void OnDisable()
+    private void OnDisable()
     {
         _model = null;
         moddingUI.SetActive(false);
@@ -80,78 +97,65 @@ public class WeaponUI : MonoBehaviour
     {
         weaponSelectUI.SetActive(false);
         moddingUI.SetActive(true);
-
-        if (_model.WeaponSystem.CurrentWeapon.weaponType == Enums.WeaponType.Melee)
-        {
-            rangeModsPanel.SetActive(false);
-            meleeModsPanel.SetActive(true);
-            ShowCurrentWeaponMods();
-        }
-        else if (_model.WeaponSystem.CurrentWeapon.weaponType == Enums.WeaponType.Range)
-        {
-            rangeModsPanel.SetActive(true);
-            meleeModsPanel.SetActive(false);
-            ShowCurrentWeaponMods();
-        }
+        ShowCurrentWeaponMods();
     }
 
     public void ShowCurrentWeaponMods()
     {
         C_Weapon weapon = _model.WeaponSystem.CurrentWeapon;
 
-        if (weapon.weaponLevel >= 2)
+        if (_model.WeaponSystem.CurrentWeapon.weaponLevel == 1)
         {
-            if (weapon.weaponType == Enums.WeaponType.Melee)
-            {
-                ShowMeleeMods(weapon);
-            }
-            else if (weapon.weaponType == Enums.WeaponType.Range)
-            {
-                ShowRangeMods(weapon);
-            }
+            Grade1Button.SetActive(true);
+            Grade2Button.SetActive(false);
+            Grade3Button.SetActive(false);
+            Grade4Button.SetActive(false);
         }
-        else
+        else if (_model.WeaponSystem.CurrentWeapon.weaponLevel == 2)
         {
-            meleeParent.SetActive(false);
-            rangeParent.SetActive(false);
+            Grade1Button.SetActive(true);
+            Grade2Button.SetActive(true);
+            Grade3Button.SetActive(false);
+            Grade4Button.SetActive(false);
         }
+        else if (_model.WeaponSystem.CurrentWeapon.weaponLevel == 3)
+        {
+            Grade1Button.SetActive(true);
+            Grade2Button.SetActive(true);
+            Grade3Button.SetActive(true);
+            Grade4Button.SetActive(false);
+        }
+        else if (_model.WeaponSystem.CurrentWeapon.weaponLevel == 4)
+        {
+            Grade1Button.SetActive(true);
+            Grade2Button.SetActive(true);
+            Grade3Button.SetActive(true);
+            Grade4Button.SetActive(true);
+        }
+
+
     }
 
-    public void ShowRangeMods(C_Weapon weapon)
+    public void SelectMod(WeaponModInstance instance)
     {
-        rangeParent.SetActive(true);
-        meleeParent.SetActive(false);
-        if (weapon.attackBehavior is BowAttackBehavior bow)
-        {
-            for (int i = 0; i < 9; i++)
-            {
-                int index = i;
-
-                rangeButtons[index].GetComponent<ModButton>().modNameText.text = bowMods[index].modName;
-                Button btn = rangeButtons[index].GetComponent<Button>();
-                btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(() => SelectMod(bowMods[index]));
-            }
-        }
+        selectMod = instance.weaponMod;
+        modName.text = selectMod.modName;
+        modDesc.text = selectMod.modDesc;
     }
 
-    public void ShowMeleeMods(C_Weapon weapon)
+    public void SelectMod(WeaponModSO mod)
     {
-        rangeParent.SetActive(false);
-        meleeParent.SetActive(true);
-        Debug.Log("근접 무기 모드");
-    }
-
-    public void SelectMod(WeaponModSO modSO)
-    {
-        selectMod = modSO;
-        modName.text = modSO.modName;
-        modDesc.text = modSO.modDesc;
+        OnSelectMod?.Invoke();
+        selectMod = mod;
+        modName.text = selectMod.modName;
+        modDesc.text = selectMod.modDesc;
     }
 
     public void TryModding()
     {
         _model.WeaponSystem.TryModing(selectMod,_model.WeaponSystem.CurrentWeapon,out reason);
+        OnSelectMod?.Invoke();
+        OnTryModding?.Invoke();
         ShowCurrentWeaponMods();
     }
 

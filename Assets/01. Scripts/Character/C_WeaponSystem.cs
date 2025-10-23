@@ -143,7 +143,7 @@ namespace Player.Weapon
             foreach (var kv in weapon.weaponModded)
             {
                 var mod = kv.Value.weaponMod;
-                mod.OnFire(weapon, ref projectiles,speed);
+                mod.OnFire(weapon, ref projectiles,speed,kv.Value.level);
             }
         }
 

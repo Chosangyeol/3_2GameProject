@@ -33,7 +33,7 @@ public class C_Weapon
         {
             Debug.Log("辟芭府 公扁 积己");
             owner = GameObject.FindGameObjectWithTag("Player").GetComponent<C_Model>();
-            attackBehavior = new BladeAttackBehavior();
+            attackBehavior = new MeleeDefaultBehavior();
             isChargeWeapon = false;
             weaponDamage = 7f;
             weaponLevel = 1;
