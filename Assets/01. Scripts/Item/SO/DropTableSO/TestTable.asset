@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71f6a85fec77bc447899c24ee8db694e, type: 3}
+  m_Name: TestTable
+  m_EditorClassIdentifier: 
+  rarityGroup:
+  - rarity: 0
+    rarityWeight: 100
+    items:
+    - item: {fileID: 3477633753598981552, guid: 70435394e50752d43a92c4569a7f9330, type: 3}
+      weight: 50
+    - item: {fileID: 3477633753598981552, guid: d7300f53ccdd5be40b18300e5b670355, type: 3}
+      weight: 50

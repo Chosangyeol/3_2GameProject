@@ -30,4 +30,12 @@ public class Enums : MonoBehaviour
         Melee,
         Ranged
     }
+
+    public enum ItemRarity
+    {
+        Common,
+        Rare,
+        Unique,
+        Legend
+    }
 }

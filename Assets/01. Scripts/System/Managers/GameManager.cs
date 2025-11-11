@@ -2,15 +2,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public PoolableMono testEnemy;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Slash))
+        {
+            PoolableMono test = PoolManager.Instance.Pop(testEnemy.name);
+            test.transform.position = new Vector3(10, 0, 10);
+        }
     }
 }

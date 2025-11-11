@@ -3,6 +3,7 @@ using Player;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -19,7 +20,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Sub UI-Player List")]
     public TMP_Text hpText;
+    public Slider hpSlider;
     public TMP_Text mpText;
+    public Slider mpSlider;
     public TMP_Text moneyText;
     public GameObject inventoryUI;
 
@@ -61,6 +64,8 @@ public class UIManager : MonoBehaviour
 
     private void UpdateUI(C_StatBase statBase)
     {
+        hpSlider.maxValue = statBase.maxHp;
+        hpSlider.value = statBase.curHp;
         hpText.text = statBase.curHp + " / " + statBase.maxHp;
         moneyText.text = statBase.money + "G";
     }

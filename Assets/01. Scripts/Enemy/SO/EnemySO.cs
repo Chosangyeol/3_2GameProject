@@ -13,4 +13,9 @@ public class EnemySO : ScriptableObject
     public float detectRange;
     public float moveSpeed;
     public float attackSpeed;
+
+    [Header("아이템 드랍 테이블")]
+    public DropTableSO itemDropTable;
+    [Range(0f, 100f)]
+    public float itemDropPersent;
 }

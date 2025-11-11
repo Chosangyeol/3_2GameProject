@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestEnemy : EnemyBase
 {
-    public override void Awake()
+    protected override void Awake()
     {
         base.Awake();
         attackBehavior = new MeleeAttack();

@@ -12,6 +12,11 @@ public class NpcBase : InteractBase
     [Header("Npc 옵션 버튼")]
     public List<NpcButton> npcButtons = new List<NpcButton>();
 
+    private void OnEnable()
+    {
+        Reset();
+    }
+
     #region Override InteractBase
     public override void Interact(Transform interactor)
     {
