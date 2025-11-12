@@ -6,7 +6,7 @@ public class ObjectPool : MonoBehaviour
     public PoolingListSO playerItems;
     public PoolingListSO enemyPool;
 
-    private void Start()
+    private void Awake()
     {
         playerProjectiles.PoolList.ForEach(p =>
         {

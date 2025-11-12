@@ -19,11 +19,16 @@ public class EnemyUI : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        UpdateHPBar(target.GetStat().curHp, target.GetStat().maxHp);
+    }
+
     private void LateUpdate()
     {
         if (target == null)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
             return;
         }
 

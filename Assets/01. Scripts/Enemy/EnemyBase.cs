@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class EnemyBase : PoolableMono
 {
@@ -21,6 +23,7 @@ public class EnemyBase : PoolableMono
     public Transform player;
 
     public UnityEvent<float, float> onHealthChanged;
+    public static event Action<EnemyBase> OnEnemyDie;
 
     protected IAttackBehavior attackBehavior;
     public IAttackBehavior AttackBehavior => attackBehavior;
@@ -100,10 +103,12 @@ public class EnemyBase : PoolableMono
         {
             // 아이템 드랍
             TryDropItem(enemySO.itemDropTable);
+            OnEnemyDie?.Invoke(this);
             PoolManager.Instance.Push(this);
         }
         else
         {
+            OnEnemyDie?.Invoke(this);
             PoolManager.Instance.Push(this);
         }
     }
