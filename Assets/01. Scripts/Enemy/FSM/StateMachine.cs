@@ -8,10 +8,8 @@ public class StateMachine
 
     public void ChangeState(IState nextState)
     {
-        Debug.Log(curState + " 종료");
         curState?.OnExit(); // 기존 State 종료
         curState = nextState;
-        Debug.Log(nextState + " 시작");
         curState?.OnEnter(); // 다음 State 시작
     }
 

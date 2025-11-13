@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   enemyName: Test
-  maxHp: 1000
+  maxHp: 100
   enemyType: 0
   damage: 1
-  attackRange: 3
+  attackRange: 10
   detectRange: 5
   moveSpeed: 3
   attackSpeed: 1
+  itemDropTable: {fileID: 0}
+  itemDropPersent: 0

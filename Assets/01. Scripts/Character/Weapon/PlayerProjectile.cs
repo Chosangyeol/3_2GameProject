@@ -19,7 +19,7 @@ public class PlayerProjectile : PoolableMono
         if (other.CompareTag("Enemy"))
         {
             Debug.Log("Рћ РћСп / " + damage );
-            other.GetComponent<EnemyBase>().TakeDamage(damage * damageMultiplier);
+            other.GetComponent<EnemyBase>().TakeDamage(Mathf.RoundToInt(damage * damageMultiplier));
             PoolManager.Instance.Push(this);
         }
 

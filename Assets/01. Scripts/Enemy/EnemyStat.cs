@@ -5,11 +5,11 @@ using UnityEngine;
 public class EnemyStat
 {
     public EnemySO enemySO;
-    public float maxHp;
-    public float curHp;
+    public int maxHp;
+    public int curHp;
 
-    public float baseDamage;
-    public float totalDamage;
+    public int baseDamage;
+    public int totalDamage;
 
     public float moveSpeed;
     public float attackSpeed;

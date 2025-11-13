@@ -6,9 +6,9 @@ using UnityEngine;
 public class EnemySO : ScriptableObject
 {
     public string enemyName;
-    public float maxHp;    
+    public int maxHp;    
     public Enums.EnemyType enemyType;
-    public float damage;
+    public int damage;
     public float attackRange;
     public float detectRange;
     public float moveSpeed;

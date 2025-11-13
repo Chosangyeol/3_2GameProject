@@ -1,10 +1,11 @@
+using Player;
 using UnityEngine;
 
 public class EnemyProjectile : PoolableMono
 {
     public EnemyBase owner;
     [HideInInspector]
-    public float damage;
+    public int damage;
     [HideInInspector]
     public float timer;
     public float destroyTime;
@@ -29,7 +30,7 @@ public class EnemyProjectile : PoolableMono
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("플레이어 적중");
+            other.GetComponent<C_Model>().Damaged(damage);
             PoolManager.Instance.Push(this);
         }
     }

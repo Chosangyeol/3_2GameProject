@@ -7,8 +7,8 @@ namespace Player.Item
     [CreateAssetMenu(fileName = "AddStat Item", menuName = "SO/Data - Item/AddStat")]
     public class Item_AddStatSO : AItemDataSO
     {
-        public int increAmount;
-        public CanIncreStats canIncreStats;
+        public float increAmount;
+        public CanAddStats canIncreStats;
 
         public override AItem CreateItem()
         {
@@ -16,7 +16,7 @@ namespace Player.Item
         }
     }
 
-    public enum CanIncreStats
+    public enum CanAddStats
     {
         hpMax = 0,
         damage,

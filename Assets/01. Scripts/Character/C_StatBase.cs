@@ -3,13 +3,13 @@ using UnityEngine;
 public class C_StatBase
 {
     public C_StatBaseSO statBaseSO;
-    public float maxHp;
-    public float curHp;
-    public float damage;
+    public int maxHp;
+    public int curHp;
+    public int damage;
     public float moveSpeed;
     public float attackSpeed;
 
-    public float money;
+    public int money;
 
     public int modingChance;
 
@@ -33,7 +33,26 @@ public class C_StatBase
         this.critChance = 0.1f;
         this.critMultiplier = 1.5f;
         this.rotateSpeed = 2000f;
+    }
 
+    public void AddMaxHp(int amount)
+    {
+        maxHp += amount;
+        Heal(amount);
+    }
+
+    public void AddDamage(int amount)
+    {
+        damage += amount;
+    }
+
+    public void Heal(int amount)
+    {
+        curHp += amount;
+        if (curHp > maxHp)
+        {
+            curHp = maxHp;
+        }
     }
 
     public void InitRuntime()

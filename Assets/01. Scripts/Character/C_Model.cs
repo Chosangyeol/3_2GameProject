@@ -88,7 +88,7 @@ namespace Player
         #endregion
 
         #region Damaged
-        public void Damaged(float damage, GameObject attacker = null)
+        public void Damaged(int damage, GameObject attacker = null)
         {
             statBase.curHp -= damage;
             Debug.Log(statBase.curHp);
@@ -103,11 +103,9 @@ namespace Player
             Debug.Log("»ç¸Á");
         }
 
-        public void Heal(float amount)
+        public void Heal(int amount)
         {
-            statBase.curHp += amount;
-            if (statBase.curHp > statBase.maxHp)
-                statBase.curHp = statBase.maxHp;
+            statBase.Heal(amount);
         }
         #endregion
 

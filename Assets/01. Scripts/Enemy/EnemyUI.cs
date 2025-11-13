@@ -11,17 +11,17 @@ public class EnemyUI : MonoBehaviour
     private void Start()
     {
         cam = Camera.main;
-
-        if (target != null)
-        {
-            target.onHealthChanged.AddListener(UpdateHPBar);
-            UpdateHPBar(target.GetStat().curHp, target.GetStat().maxHp);
-        }
+  
     }
 
     private void OnEnable()
     {
-        UpdateHPBar(target.GetStat().curHp, target.GetStat().maxHp);
+        target.hpChanged += UpdateHPBar;
+    }
+
+    private void OnDisable()
+    {
+        target.hpChanged -= UpdateHPBar;
     }
 
     private void LateUpdate()
@@ -39,9 +39,9 @@ public class EnemyUI : MonoBehaviour
         transform.forward = cam.transform.forward;
     }
 
-    private void UpdateHPBar(float current, float max)
+    private void UpdateHPBar(int current, int max)
     {
-        float ratio = current / max;
-        hpSlider.value = ratio;
+        hpSlider.maxValue = max;
+        hpSlider.value = current;
     }
 }

@@ -18,7 +18,7 @@ namespace Player.Item
         {
             base.Reset();
             InteractTransform = transform;
-            InteractName = "F - Interact";
+            InteractName = "F - " + _itemDataSO.itemName;
             Priority = 0;
         }
 

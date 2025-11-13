@@ -9068,6 +9068,9 @@ MonoBehaviour:
       enemyPrefab: {fileID: 3913559086961234827, guid: 14323a918d986be4c85f0c1b31caea51, type: 3}
     - spawnPos: {fileID: 611437425}
       enemyPrefab: {fileID: 7630575731892754244, guid: 22b55dbe51fbebb40abe793e4a9c018a, type: 3}
+  - enemyInfo:
+    - spawnPos: {fileID: 611437425}
+      enemyPrefab: {fileID: 2435437313692681876, guid: 7793051b96cb675429ae54958349fe2c, type: 3}
   spawnEffect: {fileID: 3703390741001675654, guid: a2676fc120d20c0428faeea387cf8aa3, type: 3}
 --- !u!4 &1978110924
 Transform:

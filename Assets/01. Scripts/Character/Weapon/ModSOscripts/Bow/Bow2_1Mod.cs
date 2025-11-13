@@ -12,12 +12,12 @@ public class Bow2_1Mod : WeaponModSO
     public float delay;
     public float secondShotDamage = 0.7f;
 
-    public float addDamageLv1;
-    public float addDamageLv2;
+    public int addDamageLv1;
+    public int addDamageLv2;
 
     public override void ApplyMod(C_Weapon weapon, C_StatBase owner, int level)
     {
-        float addDamage = (level == 2 ? addDamageLv2 : addDamageLv1);
+        int addDamage = (level == 2 ? addDamageLv2 : addDamageLv1);
 
         owner.damage += addDamage;
     }

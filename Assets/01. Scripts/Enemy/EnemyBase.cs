@@ -22,7 +22,7 @@ public class EnemyBase : PoolableMono
     [HideInInspector]
     public Transform player;
 
-    public UnityEvent<float, float> onHealthChanged;
+    public event Action<int, int> hpChanged;
     public static event Action<EnemyBase> OnEnemyDie;
 
     protected IAttackBehavior attackBehavior;
@@ -38,17 +38,7 @@ public class EnemyBase : PoolableMono
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
-
-        if (enemySO != null && GetStat() == null)
-        {
-            Reset();
-        }
-
         fsm = new StateMachine();
-    }
-
-    private void Start()
-    {
     }
 
     private void Update()
@@ -63,6 +53,7 @@ public class EnemyBase : PoolableMono
 
     protected virtual void OnEnable()
     {
+        Reset();
         fsm.ChangeState(new State_Idle(this, fsm));
     }
     #endregion
@@ -70,7 +61,7 @@ public class EnemyBase : PoolableMono
     public override void Reset()
     {
         Stat = new EnemyStat(enemySO);
-
+        hpChanged?.Invoke(Stat.curHp, Stat.maxHp);
     }
 
     public EnemyStat GetStat()
@@ -78,7 +69,7 @@ public class EnemyBase : PoolableMono
         return Stat;
     }
 
-    public void StartAttack()
+    public virtual void StartAttack(int patternIndex = 0)
     {
         if (Time.time - lastAttackTime >= Stat.attackSpeed)
         {       
@@ -87,10 +78,15 @@ public class EnemyBase : PoolableMono
         }
     }
 
-    public void TakeDamage(float amount)
+    public virtual void AttackEnd()
+    {
+        fsm.ChangeState(new State_Chase(this, fsm));
+    }
+
+    public void TakeDamage(int amount)
     {
         Stat.curHp -= amount;
-        onHealthChanged?.Invoke(Stat.curHp, Stat.maxHp);
+        hpChanged?.Invoke(Stat.curHp, Stat.maxHp);
         if (Stat.curHp <= 0)
         {
             Die();
