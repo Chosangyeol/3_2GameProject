@@ -40,6 +40,9 @@ namespace Player
         public event Action<C_StatBase> ActionCallbaskStatChanged;
         public event Action ActionCallbackItemChanged;
 
+        private Animator _anim;
+        public Animator Anim => _anim;
+
         public C_StatBase GetStat()
         {
             return statBase;
@@ -52,6 +55,7 @@ namespace Player
             if (statBase == null) statBase = new C_StatBase(statSO);
             _inventory = new C_Inventory(this);
             _weaponSystem = new C_WeaponSystem(this);
+            _anim = GetComponentInChildren<Animator>();
 
             canAttack = false;
         }
@@ -124,6 +128,59 @@ namespace Player
             }
             return;
         }
+        #endregion
+
+        #region Attack (ÄÞº¸)
+        public void OpenCombo()
+        {
+            var ws = WeaponSystem;
+            if (!ws.CurrentWeapon.attackBehavior.hasCombo) return;
+
+            ws.attackOpen = true;
+            ws.nextAttack = false;
+        }
+
+        public void CloseCombo()
+        {
+            var ws = WeaponSystem;
+
+            if (!ws.CurrentWeapon.attackBehavior.hasCombo) return;
+
+            ws.attackOpen = false;
+        }
+
+        public void EndAttack()
+        {
+            var ws = WeaponSystem;
+
+            if (!ws.CurrentWeapon.attackBehavior.hasCombo)
+            {
+                canMove = false;
+                return;
+            }
+
+            if (ws.nextAttack && ws.combo < 3)
+            {
+                ws.nextAttack = false;
+                ws.attackOpen = false;
+
+                ws.combo++;
+                ws.isAttacking = true;
+
+                ws.CurrentWeapon.attackBehavior.Execute(this, ws.CurrentWeapon);
+            }
+            else
+            {
+                // ÄÞº¸ Á¾·á
+                ws.combo = 0;
+                ws.nextAttack = false;
+                ws.attackOpen = false;
+                ws.isAttacking = false;
+                canMove = true;
+            }
+
+        }
+
         #endregion
     }
 }

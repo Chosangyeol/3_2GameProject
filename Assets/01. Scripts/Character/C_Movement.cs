@@ -40,6 +40,8 @@ namespace Player
 
             Vector3 wishDir = camF * moveInput.y + camR * moveInput.x;
             bool hasInput = wishDir.sqrMagnitude > 0.0001f;
+            if (!isDashing)
+                _model.Anim.SetBool("isMove", hasInput);
 
             // È¸Àü
             if (hasInput)
@@ -75,6 +77,7 @@ namespace Player
         {
             canDash = false;
             isDashing = true;
+            _model.Anim.SetTrigger("isDash");
 
             float t = 0f;
             Vector3 forward = _model.transform.forward;
@@ -85,9 +88,9 @@ namespace Player
                 t += Time.deltaTime;
                 yield return null;
             }
+            _model.Anim.SetTrigger("isDashEnd");
 
             yield return new WaitForSeconds(Mathf.Max(0f, invulnDuration - dashDuration));
-
             isDashing = false;
 
             yield return new WaitForSeconds(cooldown);

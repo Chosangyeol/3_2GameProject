@@ -3,13 +3,23 @@ using UnityEngine;
 
 public class BladeAttackBehavior : IPlayerAttackBe
 {
+    
+    public bool hasCombo => true;
 
     public void Execute(C_Model attacker, C_Weapon weapon)
     {
         Vector3 dir = GetMouseDirection(attacker);
         attacker.transform.forward = dir;
         Debug.Log("근접 공격 실행");
+
+        int comboIndex = attacker.WeaponSystem.combo;
+        
+        attacker.Anim.SetInteger("Combo", comboIndex);
+        attacker.Anim.SetTrigger("isAttack");
+
+        attacker.canMove = false;
         //애니메이션 진행되는 동안 이동은 못하게
+
     }
 
     private Vector3 GetMouseDirection(C_Model model)
@@ -26,4 +36,5 @@ public class BladeAttackBehavior : IPlayerAttackBe
         }
         return model.transform.forward;
     }
+
 }

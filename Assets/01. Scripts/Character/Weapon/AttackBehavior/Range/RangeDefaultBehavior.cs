@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class RangeDefaultBehavior : IPlayerAttackBe
 {
+    public bool hasCombo => false;
+
     public GameObject projectile;
     public float speed;
     public float maxChargeTime = 1f;

@@ -13,6 +13,11 @@ namespace Player.Weapon
 
         public C_Weapon CurrentWeapon { get => currentWeapon; }
 
+        public int combo = 0;
+        public bool isAttacking = false;
+        public bool attackOpen = false;
+        public bool nextAttack = false;
+
         public const int MinGrade = 1;
         public const int MaxGrade = 4;
 
@@ -28,7 +33,24 @@ namespace Player.Weapon
         {
             if (!_model.canAttack)
                 return;
-            currentWeapon.attackBehavior.Execute(_model, currentWeapon);
+
+            if (currentWeapon.attackBehavior.hasCombo)
+            {
+                if (!isAttacking)
+                {
+                    isAttacking = true;
+                    combo += 1;
+                    currentWeapon.attackBehavior.Execute(_model, currentWeapon);
+                }
+                else if (attackOpen)
+                {
+                      nextAttack = true;
+                }
+            }
+            else
+            {
+                currentWeapon.attackBehavior.Execute(_model, currentWeapon);
+            }
         }
 
         public void CreateWeapon(WeaponType weaponType)

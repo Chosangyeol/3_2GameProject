@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MeleeDefaultBehavior : IPlayerAttackBe
 {
-
+    public bool hasCombo => true;
     public void Execute(C_Model attacker, C_Weapon weapon)
     {
         Vector3 dir = GetMouseDirection(attacker);
