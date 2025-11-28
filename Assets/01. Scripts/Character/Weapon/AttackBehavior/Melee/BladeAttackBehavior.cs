@@ -17,6 +17,8 @@ public class BladeAttackBehavior : IPlayerAttackBe
         attacker.Anim.SetInteger("Combo", comboIndex);
         attacker.Anim.SetTrigger("isAttack");
 
+        attacker.cc.Move(dir * 0.4f);
+
         attacker.canMove = false;
         //애니메이션 진행되는 동안 이동은 못하게
 

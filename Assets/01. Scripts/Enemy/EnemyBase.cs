@@ -31,6 +31,8 @@ public class EnemyBase : PoolableMono
     protected StateMachine fsm;
     public StateMachine Fsm => fsm;
 
+    private bool damaged = false;
+
     #region Unity Event
     protected virtual void Awake()
     {
@@ -87,6 +89,11 @@ public class EnemyBase : PoolableMono
     {
         Stat.curHp -= amount;
         hpChanged?.Invoke(Stat.curHp, Stat.maxHp);
+        if (damaged == false)
+        {
+            damaged = true;
+            fsm.ChangeState(new State_Chase(this, fsm));
+        }
         if (Stat.curHp <= 0)
         {
             Die();

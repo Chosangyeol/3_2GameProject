@@ -11,11 +11,11 @@ public class EnemyUI : MonoBehaviour
     private void Start()
     {
         cam = Camera.main;
-  
     }
 
     private void OnEnable()
     {
+        cam = Camera.main;
         target.hpChanged += UpdateHPBar;
     }
 

@@ -59,9 +59,6 @@ public class BowAttackBehavior : IPlayerAttackBe
             Vector3 dir = GetMouseDirection(attacker);
             attacker.transform.forward = dir;
 
-            // UI나 이펙트로 차징 정도 표시
-            Debug.Log($" 차징 중... {Mathf.RoundToInt(ratio * 100)}%");
-
             yield return null;
 
             currentCharge = Mathf.Min(currentCharge, maxChargeTime);
@@ -104,7 +101,6 @@ public class BowAttackBehavior : IPlayerAttackBe
                 rb2.linearVelocity = p.transform.forward * finalSpeed;
         }
 
-        Debug.Log($" 차지 발사! (속도: {finalSpeed:F1}, 데미지: {finalDamage:F1})");
         attacker.canMove = true;
         currentCharge = 0f;
     }

@@ -2,6 +2,7 @@ using Player.Item;
 using Player.Weapon;
 using System;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,8 @@ namespace Player
 {
     public class C_Model : MonoBehaviour, IDamageable
     {
+        public static C_Model Instance;
+
         [SerializeField]
         protected C_StatBaseSO statSO;
         protected C_StatBase statBase;
@@ -51,6 +54,15 @@ namespace Player
         #region Unity Event
         protected virtual void Awake()
         {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
             cc = GetComponent<CharacterController>();
             if (statBase == null) statBase = new C_StatBase(statSO);
             _inventory = new C_Inventory(this);
@@ -180,6 +192,7 @@ namespace Player
             }
 
         }
+
 
         #endregion
     }

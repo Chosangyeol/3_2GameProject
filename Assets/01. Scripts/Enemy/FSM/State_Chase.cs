@@ -15,7 +15,7 @@ public class State_Chase : IState
 
     public void OnEnter()
     {
-        enemy.anim.SetBool("isMoving", true);
+        enemy.anim.SetBool("Move", true);
     }
 
     public void Tick()
@@ -37,5 +37,6 @@ public class State_Chase : IState
     public void OnExit()
     {
         enemy.agent.ResetPath();
+        enemy.anim.SetBool("Move", false);
     }
 }

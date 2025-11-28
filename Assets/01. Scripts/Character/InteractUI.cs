@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class InteractUI : MonoBehaviour
 {
+    public static InteractUI Instance;
+
     [SerializeField] private Canvas canvas;  // World Space Äµ¹ö½º ±ÇÀå
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private Vector3 worldOffset = new Vector3(0, 1.8f, 0);
@@ -10,7 +12,23 @@ public class InteractUI : MonoBehaviour
 
     void Reset()
     {
-        cam = Camera.main ? Camera.main.transform : null;
+        //cam = GameObject.FindGameObjectWithTag("MainCamera").transform;
+    }
+
+    private void OnEnable()
+    {
+        cam = GameObject.FindGameObjectWithTag("MainCamera").transform;
+    }
+    
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void Show(string prompt, Vector3 worldPos)

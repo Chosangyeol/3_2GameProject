@@ -16,7 +16,7 @@ public class State_Attack : IState
     public void OnEnter()
     {
         enemy.agent.ResetPath();
-        enemy.anim.SetBool("isMoving", false);
+        enemy.anim.SetBool("Move", false);
     }
 
     public void Tick()

@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: EnemyList
   m_EditorClassIdentifier: 
   PoolList:
-  - Prefab: {fileID: 3913559086961234827, guid: 14323a918d986be4c85f0c1b31caea51, type: 3}
+  - Prefab: {fileID: 8047687975026988669, guid: 2a55ed08d1d492646a4fcc1e1b1d6d02, type: 3}
     Count: 3
   - Prefab: {fileID: 7630575731892754244, guid: 22b55dbe51fbebb40abe793e4a9c018a, type: 3}
     Count: 3
   - Prefab: {fileID: 2435437313692681876, guid: 7793051b96cb675429ae54958349fe2c, type: 3}
     Count: 1
+  - Prefab: {fileID: 3913559086961234827, guid: 14323a918d986be4c85f0c1b31caea51, type: 3}
+    Count: 3

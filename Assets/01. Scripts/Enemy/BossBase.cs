@@ -18,6 +18,7 @@ public class BossBase : EnemyBase
     protected override void Die()
     {
         TryBossDrop(enemySO.itemDropTable);
+        // º¸½º Àü¿ë Æ÷Å» ¿ÀÇÂ
         PoolManager.Instance.Push(this);
     }
 

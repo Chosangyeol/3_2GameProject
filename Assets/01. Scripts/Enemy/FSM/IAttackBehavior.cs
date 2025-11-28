@@ -12,7 +12,7 @@ public class MeleeAttack : IAttackBehavior
 {
     public void ExecuteAttack(EnemyBase enemy, int patternIndex = 0)
     {
-        //enemy.anim.SetTrigger("Attack");
+        enemy.anim.SetTrigger("Attack");
     }
 }
 

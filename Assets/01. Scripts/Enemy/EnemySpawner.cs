@@ -1,3 +1,4 @@
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
 using NUnit.Framework;
 using System;
 using System.Collections;
@@ -72,11 +73,13 @@ public class EnemySpawner : MonoBehaviour
             {
                 enemyInWaveNum = 0;
                 currentDieEnemyNum = 0;
+                Debug.Log("다음 웨이브");
                 StartWave();
             }
             else
             {
-                Debug.Log("웨이브 종료");
+                PortalManager nowPM = GameObject.Find("PortalManager").GetComponent<PortalManager>();
+                nowPM.OpenAllPortal();
             }
         }
     }
