@@ -46,6 +46,26 @@ public class C_StatBase
         damage += amount;
     }
 
+    public void AddMoveSpeed(float amount)
+    {
+        moveSpeed += amount;
+    }
+
+    public void AddAttackSpeed(float amount)
+    {
+        attackSpeed += amount;
+    }
+
+    public void AddCritRate(float amount)
+    {
+        critChance += amount;
+    }
+
+    public void AddCritDamage(float amount)
+    {
+        critMultiplier += amount;
+    }
+
     public void Heal(int amount)
     {
         curHp += amount;

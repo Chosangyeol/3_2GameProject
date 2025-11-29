@@ -15,14 +15,14 @@ public class GradeButton : MonoBehaviour
 
     private void OnEnable()
     {
-        WeaponUI.Instance.OnSelectMod += CloseList;
+        WeaponUI.Instance.OnTryModding += CloseList;
         WeaponUI.Instance.OnTryModding += UpdateGradeButton;
         UpdateGradeButton();
     }
 
     private void OnDisable()
     {
-        WeaponUI.Instance.OnSelectMod -= CloseList;
+        WeaponUI.Instance.OnTryModding -= CloseList;
         WeaponUI.Instance.OnTryModding -= UpdateGradeButton;
         this.GetComponent<Button>().onClick.RemoveAllListeners();
     }

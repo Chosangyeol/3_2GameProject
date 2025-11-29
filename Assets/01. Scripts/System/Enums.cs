@@ -2,26 +2,25 @@ using UnityEngine;
 
 public class Enums : MonoBehaviour
 {
+    public enum CharacterStat
+    {
+        Hp,
+        Damage,
+        MoveSpeed,
+        AttackSpeed,
+        CriticlaRate,
+        CriticalDamage
+    }
+
     public enum WeaponType
     {
         None,
-        Melee,
-        Range
-    }
-
-    public enum AllWeaponType
-    {
         Bow,
-        Staff,
-        CrossBow,
-        Blade,
-        GiantBlade,
-        Spear
+        Staff
     }
 
     public enum WeaponModType
     {
-        MeleeMod,
         RangeMod
     }    
 

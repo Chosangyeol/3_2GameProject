@@ -25,11 +25,6 @@ public class WeaponUI : MonoBehaviour
 
     public WeaponModSO selectMod;
 
-    public List<WeaponModSO> meleeMods;
-    public List<WeaponModSO> rangeMods;
-
-    public List<WeaponModSO> bowMods;
-
     public event Action OnSelectMod;
     public event Action OnTryModding;
 
@@ -66,16 +61,16 @@ public class WeaponUI : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void CreateRangeWeapon()
+    public void CreateBowWeapon()
     {
-        _model.WeaponSystem.CreateWeapon(Enums.WeaponType.Range);
+        _model.WeaponSystem.CreateWeapon(Enums.WeaponType.Bow);
         weaponSelectUI.SetActive(false);
         UpdateWeaponState(_model.transform);
     }
 
-    public void CreateMeleeWeapon()
+    public void CreateStaffWeapon()
     {
-        _model.WeaponSystem.CreateWeapon(Enums.WeaponType.Melee);
+        _model.WeaponSystem.CreateWeapon(Enums.WeaponType.Staff);
         weaponSelectUI.SetActive(false);
         UpdateWeaponState(_model.transform);
     }

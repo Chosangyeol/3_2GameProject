@@ -17,11 +17,11 @@ public class ModButton : MonoBehaviour
     public void InitModButton(C_Weapon weapon)
     {
         Enums.WeaponType type = weapon.weaponType;
-        if (type == Enums.WeaponType.Melee)
+        if (type == Enums.WeaponType.Staff)
         {
             currentMod = mods[0];
         }
-        else if (type == Enums.WeaponType.Range)
+        else if (type == Enums.WeaponType.Bow)
         {
             currentMod = mods[1];
         }

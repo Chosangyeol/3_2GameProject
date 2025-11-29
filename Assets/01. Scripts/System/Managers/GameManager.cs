@@ -1,15 +1,35 @@
+using System.Diagnostics.Contracts;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public PoolableMono testEnemy;
+
+    private static GameManager instance;
+    public static GameManager Instance => instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+    }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Slash))
-        {
-            PoolableMono test = PoolManager.Instance.Pop(testEnemy.name);
-            test.transform.position = new Vector3(10, 0, 10);
-        }
+        
     }
+
+    public void BuyItem(int amount)
+    {
+
+    }
+    
+
 }

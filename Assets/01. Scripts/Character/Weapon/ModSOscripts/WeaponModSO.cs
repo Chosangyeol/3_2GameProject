@@ -7,7 +7,6 @@ using UnityEngine;
 public class WeaponModInstance
 {
     public WeaponModSO weaponMod;
-    public int level;
 }
 
 [CreateAssetMenu(fileName = "New WeaponMod", menuName = "WeaponMod/WeaponMod-Default")]
@@ -20,7 +19,8 @@ public class WeaponModSO : ScriptableObject
     public int modGrade;
     public int maxLevel = 2;
 
-    public virtual void ApplyMod(C_Weapon weapon, C_StatBase owner, int level) { }
-    public virtual void OnFire(C_Weapon weapon, ref List<GameObject> projectiless, float speed, int level) { }
+    public virtual void ActivateMod(C_Weapon weapon, C_StatBase owner) { }
+    public virtual void DeactivateMod(C_Weapon weapon, C_StatBase owner) { }
+    public virtual void OnFire(C_Weapon weapon, ref List<GameObject> projectiless, float speed) { }
 
 }

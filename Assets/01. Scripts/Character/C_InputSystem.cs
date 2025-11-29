@@ -13,17 +13,28 @@ namespace Player
         public InputActionReference DashAction;
         public InputActionReference AttackAction;
         public InputActionReference InteractAction;
+        public InputActionReference SkillAction1;
+        public InputActionReference SkillAction2;
 
-        [Header("동작 스크립트")]
-        [SerializeField] private C_Movement pMove;
-        [SerializeField] private C_Interactor pInteractor;
+        private C_Movement pMove;
+        private C_Interactor pInteractor;
+        private C_Skill pSkill;
 
+
+        private void Awake()
+        {
+            pMove = GetComponent<C_Movement>();
+            pInteractor = GetComponent<C_Interactor>();
+            pSkill = _model.Skill;
+        }
         private void OnEnable()
         {
             EnableAction(MoveAction);
             EnableAction(DashAction);
             EnableAction(AttackAction);
             EnableAction(InteractAction);
+            EnableAction(SkillAction1);
+            EnableAction(SkillAction2);
 
             if (DashAction && DashAction.action != null)
                 DashAction.action.started += OnDashStart;
@@ -37,6 +48,38 @@ namespace Player
 
             if (InteractAction && InteractAction.action != null)
                 InteractAction.action.started += OnInteract;
+
+            if (SkillAction1 && SkillAction1.action != null)
+                SkillAction1.action.started += OnSkill1;
+
+            if (SkillAction2 && SkillAction2.action != null)
+                SkillAction2.action.started += OnSkill2;
+        }
+
+        private void OnDisable()
+        {
+            DisableAction(MoveAction);
+            DisableAction(DashAction);
+            DisableAction(AttackAction);
+            DisableAction(InteractAction);
+            DisableAction(SkillAction1);
+            DisableAction(SkillAction2);
+
+            if (DashAction && DashAction.action != null)
+                DashAction.action.started -= OnDashStart;
+            if (AttackAction && AttackAction.action != null)
+            {
+                AttackAction.action.started -= OnAttackStart;
+                AttackAction.action.canceled -= OnAttackEnd;
+            }
+            if (InteractAction && InteractAction.action != null)
+                InteractAction.action.started -= OnInteract;
+
+            if (SkillAction1 && SkillAction1.action != null)
+                SkillAction1.action.started -= OnSkill1;
+
+            if (SkillAction2 && SkillAction2.action != null)
+                SkillAction2.action.started -= OnSkill2;
         }
 
         private void Update()
@@ -53,11 +96,18 @@ namespace Player
         private void OnAttackStart(InputAction.CallbackContext c)
         {
             var weapon = _model.WeaponSystem.CurrentWeapon;
+
             if (weapon == null || !_model.canAttack) return;
 
-            if (weapon.isChargeWeapon && weapon.attackBehavior is BowAttackBehavior charge)
+            if (weapon.isChargeWeapon && weapon.attackBehavior is BowAttackBehavior bow)
             {
-                charge.BeginCharge(_model);
+                Debug.Log("Bow Charge Start");
+                bow.BeginCharge(_model);
+            }
+            else if (weapon.isChargeWeapon && weapon.attackBehavior is StaffAttackBehavior staff)
+            {
+                Debug.Log("Staff Charge Start");
+                staff.BeginCharge(_model);
             }
             else
             {
@@ -74,11 +124,25 @@ namespace Player
             {
                 charge.ReleaseCharge(_model);
             }
+            else if (weapon.isChargeWeapon && weapon.attackBehavior is StaffAttackBehavior staff)
+            {
+                staff.ReleaseCharge(_model);
+            }
         }
 
         private void OnInteract(InputAction.CallbackContext c)
         {
             pInteractor?.TryInteract();
+        }
+
+        private void OnSkill1(InputAction.CallbackContext c)
+        {
+            _model.UseSkill(1);
+        }
+
+        private void OnSkill2(InputAction.CallbackContext c)
+        {
+            _model.UseSkill(2);
         }
 
         private static void EnableAction(InputActionReference r)

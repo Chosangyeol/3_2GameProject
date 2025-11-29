@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
 
     private C_Model _model;
 
+    public TMP_Text debugText;
+
     [Header("Main UI List")]
     public GameObject gameUI;
     public GameObject playerUI;
@@ -31,6 +33,8 @@ public class UIManager : MonoBehaviour
     public GameObject weaponUI;
     public GameObject shopUI;
 
+
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -45,6 +49,18 @@ public class UIManager : MonoBehaviour
 
         _model = GameObject.FindGameObjectWithTag("Player").GetComponent<C_Model>();
 
+
+        debugText.text =
+            "MaxHp : " + _model.GetStat().maxHp + "\n" +
+            "CurHp : " + _model.GetStat().curHp + "\n" +
+            "Damage : " + _model.GetStat().damage + "\n" +
+            "moveSpeed : " + _model.GetStat().moveSpeed + "\n" +
+            "attackSpeed : " + _model.GetStat().attackSpeed + "\n" +
+            "Money : " + _model.GetStat().money + "\n" +
+            "ModingChance : " + _model.GetStat().modingChance + "\n" +
+            "CritRate : " + _model.GetStat().critChance + "\n" +
+            "CritDamage : " + _model.GetStat().critMultiplier;
+
     }
 
     private void Start()
@@ -55,11 +71,13 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         _model.ActionCallbaskStatChanged += UpdateUI;
+        _model.ActionCallbackItemChanged += UpdateUI;
     }
 
     private void OnDisable()
     {
         _model.ActionCallbaskStatChanged -= UpdateUI;
+        _model.ActionCallbackItemChanged -= UpdateUI;
     }
 
     private void UpdateUI(C_StatBase statBase)
@@ -68,6 +86,17 @@ public class UIManager : MonoBehaviour
         hpSlider.value = statBase.curHp;
         hpText.text = statBase.curHp + " / " + statBase.maxHp;
         moneyText.text = statBase.money + "G";
+
+        debugText.text =
+            "MaxHp : " + _model.GetStat().maxHp + "\n" +
+            "CurHp : " + _model.GetStat().curHp + "\n" +
+            "Damage : " + _model.GetStat().damage + "\n" +
+            "moveSpeed : " + _model.GetStat().moveSpeed + "\n" +
+            "attackSpeed : " + _model.GetStat().attackSpeed + "\n" +
+            "Money : " + _model.GetStat().money + "\n" +
+            "ModingChance : " + _model.GetStat().modingChance + "\n" +
+            "CritRate : " + _model.GetStat().critChance + "\n" +
+            "CritDamage : " + _model.GetStat().critMultiplier;
     }
 
     public void EnableUI(GameObject ui)

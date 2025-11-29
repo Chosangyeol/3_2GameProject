@@ -10,6 +10,9 @@ EditorBuildSettings:
     guid: 9972dd18e21c0ff4db85d78e2a28efc4
   - enabled: 1
     path: Assets/00. Scene/TestScene.unity
+    guid: 8892a8c488f987f4b81190311afd89cb
+  - enabled: 1
+    path: Assets/00. Scene/TestScene22.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
     path: Assets/00. Scene/NormalStage/NormalStage1.unity
@@ -21,7 +24,7 @@ EditorBuildSettings:
     path: Assets/00. Scene/NormalStage/NormalStage3.unity
     guid: bc035b4de2d4d2746ba36dd7be190a87
   - enabled: 1
-    path: Assets/00. Scene/ShopStage.unity
+    path: Assets/00. Scene/IntroScene.unity
     guid: 9679631911aa6cf4eb3e0eeca6f19a57
   - enabled: 1
     path: Assets/00. Scene/BossStage/BossStage1.unity

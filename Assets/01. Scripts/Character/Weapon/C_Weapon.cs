@@ -9,8 +9,23 @@ public class C_Weapon
     public Enums.WeaponType weaponType;
     public IPlayerAttackBe attackBehavior;
     public bool isChargeWeapon;
-    public float weaponDamage;
-    public float weaponAttackSpeed;
+
+    public int baseWeaponDamage;
+    public int modDamage;
+    public int totalWeaponDamage;
+
+    public float baseWeaponAttackSpeed;
+    public float modAttackSpeed;
+    public float totalWeaponAttackSpeed;
+
+    public float baseCritRate;
+    public float modCritRate;
+    public float totalCritRate;
+
+    public float baseCritDamage;
+    public float modCritDamage;
+    public float totalCritDamage;
+
     public int weaponLevel;
     public Dictionary<int, WeaponModInstance> weaponModded = new Dictionary<int, WeaponModInstance>();
 
@@ -18,27 +33,56 @@ public class C_Weapon
     public C_Weapon(Enums.WeaponType weaponType)
     {
         this.weaponType = weaponType;
-        if (weaponType == Enums.WeaponType.Range)
+        if (weaponType == Enums.WeaponType.Bow)
         {
-            Debug.Log("盔芭府 公扁 积己");
+            Debug.Log("劝 公扁 积己");
             owner = GameObject.FindGameObjectWithTag("Player").GetComponent<C_Model>();
-            attackBehavior = new BowAttackBehavior(Resources.Load<GameObject>("DefaultProjectile"));
+            attackBehavior = new BowAttackBehavior(Resources.Load<GameObject>("DefaultArrow"));
             isChargeWeapon = true;
-            weaponDamage = 5f;
+            baseWeaponDamage = 5;
+            baseWeaponAttackSpeed = 1.0f;
             weaponLevel = 1;
             if (weaponModded.Count > 0)
                 weaponModded.Clear();
+
         }
-        else if (weaponType == Enums.WeaponType.Melee)
+        else if (weaponType == Enums.WeaponType.Staff)
         {
-            Debug.Log("辟芭府 公扁 积己");
+            Debug.Log("胶怕橇 公扁 积己");
             owner = GameObject.FindGameObjectWithTag("Player").GetComponent<C_Model>();
-            attackBehavior = new BladeAttackBehavior();
-            isChargeWeapon = false;
-            weaponDamage = 7f;
+            attackBehavior = new StaffAttackBehavior(Resources.Load<GameObject>("DefaultFireBall"));
+            isChargeWeapon = true;
+            baseWeaponDamage = 6;
+            baseWeaponAttackSpeed = 1.5f;
             weaponLevel = 1;
             if (weaponModded.Count > 0)
                 weaponModded.Clear();
         }
-    }  
+    }
+    
+    public void RestModStats(C_Model owner)
+    {
+        owner.AddDamage(-totalWeaponDamage);
+        owner.AddAttackSpeed(-totalWeaponAttackSpeed);
+        owner.AddCritRate(-totalCritRate);
+        owner.AddCritDamage(-totalCritDamage);
+
+        modDamage = 0;
+        modAttackSpeed = 0f;
+        modCritRate = 0f;
+        modCritDamage = 0f;
+    }
+
+    public void Recalculate(C_Model owner)
+    {
+        totalWeaponDamage = baseWeaponDamage + modDamage;
+        totalWeaponAttackSpeed = baseWeaponAttackSpeed + modAttackSpeed;
+        totalCritRate = baseCritRate + modCritRate;
+        totalCritDamage = baseCritDamage + modCritDamage;
+
+        owner.AddDamage(totalWeaponDamage);
+        owner.AddAttackSpeed(totalWeaponAttackSpeed);
+        owner.AddCritRate(totalCritRate);
+        owner.AddCritDamage(totalCritDamage);
+    }
 }

@@ -1,3 +1,4 @@
+using Player;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -102,16 +103,20 @@ public class EnemyBase : PoolableMono
 
     protected virtual void Die()
     {
+        int dropMoney = Random.Range(enemySO.dropMoneyMin, enemySO.dropMoneyMax + 1);
+
         if (Random.Range(0, 100f) <= enemySO.itemDropPersent)
         {
             // 아이템 드랍
             TryDropItem(enemySO.itemDropTable);
             OnEnemyDie?.Invoke(this);
+            player.GetComponent<C_Model>().AddGold(dropMoney);
             PoolManager.Instance.Push(this);
         }
         else
         {
             OnEnemyDie?.Invoke(this);
+            player.GetComponent<C_Model>().AddGold(dropMoney);
             PoolManager.Instance.Push(this);
         }
     }

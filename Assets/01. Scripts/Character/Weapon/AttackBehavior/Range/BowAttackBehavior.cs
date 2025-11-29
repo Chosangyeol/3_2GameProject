@@ -45,6 +45,7 @@ public class BowAttackBehavior : IPlayerAttackBe
             attacker.StopCoroutine(chargeRoutine);
 
         FireArrow(attacker);
+        attacker.StartAttackDelay();
     }
 
     // 충전 코루틴
@@ -68,7 +69,7 @@ public class BowAttackBehavior : IPlayerAttackBe
     // 실제 화살 발사
     private void FireArrow(C_Model attacker)
     {
-        float totalDamage = attacker.WeaponSystem.CurrentWeapon.weaponDamage + attacker.GetStat().damage;
+        float totalDamage = attacker.GetStat().damage;
 
         float ratio = Mathf.Clamp01(currentCharge / maxChargeTime);
         float finalSpeed = Mathf.Lerp(speed, speed*maxSpeed, ratio);

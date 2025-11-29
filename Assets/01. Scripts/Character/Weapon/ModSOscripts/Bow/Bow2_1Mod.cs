@@ -12,23 +12,13 @@ public class Bow2_1Mod : WeaponModSO
     public float delay;
     public float secondShotDamage = 0.7f;
 
-    public int addDamageLv1;
-    public int addDamageLv2;
-
-    public override void ApplyMod(C_Weapon weapon, C_StatBase owner, int level)
-    {
-        int addDamage = (level == 2 ? addDamageLv2 : addDamageLv1);
-
-        owner.damage += addDamage;
-    }
-
-    public override void OnFire(C_Weapon weapon, ref List<GameObject> projectiles, float speed, int level)
+    public override void OnFire(C_Weapon weapon, ref List<GameObject> projectiles, float speed)
     {
         C_Model owner = weapon.owner;
-        owner.StartCoroutine(FireMultiShots(owner, weapon, projectiles[0],speed,level));
+        owner.StartCoroutine(FireMultiShots(owner, weapon, projectiles[0],speed));
     }
 
-    private IEnumerator FireMultiShots(C_Model owenr, C_Weapon weapon, GameObject baseProj, float speed, int level)
+    private IEnumerator FireMultiShots(C_Model owenr, C_Weapon weapon, GameObject baseProj, float speed)
     {
         yield return new WaitForSeconds(delay);
 
@@ -47,23 +37,6 @@ public class Bow2_1Mod : WeaponModSO
             if (rb != null)
                 rb.linearVelocity = proj.transform.forward * speed;
 
-            if (level == 2)
-            {
-                yield return new WaitForSeconds(delay);
-
-                PoolableMono proj2 = PoolManager.Instance.Pop(bow.projectile.name);
-                proj2.transform.position = owenr.transform.position;
-                proj2.transform.rotation = owenr.transform.rotation;
-
-                if (proj2.TryGetComponent(out PlayerProjectile pd2))
-                {
-                    pd2.damage *= secondShotDamage;
-                }
-
-                Rigidbody rb2 = proj2.GetComponent<Rigidbody>();
-                if (rb2 != null)
-                    rb2.linearVelocity = proj2.transform.forward * speed;
-            }
         }
     }
 }

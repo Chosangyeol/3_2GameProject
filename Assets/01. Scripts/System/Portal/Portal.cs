@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 public class Portal : MonoBehaviour
 {
     public bool isOpen = false;
-    private int portalIndex = 0;
+    public int portalIndex = 0;
+    public int stageIndex = 0;
     public bool bossPortal = false;
     public int bossIndex = 0;
 
@@ -126,7 +127,6 @@ public class Portal : MonoBehaviour
 
     private void Setup()
     {
-        RandomStageSet();
 
         //Getting/creating material instance
         Material[] mats = portalRenderer.materials.ToArray();
@@ -149,42 +149,11 @@ public class Portal : MonoBehaviour
         portalLight.intensity = 0f;
     }
 
-    private void RandomStageSet()
-    {
-        if (bossPortal)
-        {
-            // 보스 스테이지
-            portalIndex = 3;
-            portalEffectColor = Color.red;
-            return;
-        }
-        
-        int index = Random.Range(0, 10);
-
-        if (index < 5)
-        {
-            // 일반 몬스터 스테이지
-            portalIndex = 0;
-            portalEffectColor = Color.gray;
-        }
-        else if (index >= 5 && index < 8)
-        {
-            // 엘리트 스테이지
-            portalIndex = 1;
-            portalEffectColor = Color.cyan;
-        }
-        else
-        {
-            // 상점 스테이지
-            portalIndex = 2;
-            portalEffectColor = Color.yellow;
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (isOpen && other.CompareTag("Player"))
         {
+
             Debug.Log("포탈 진입");
             switch (portalIndex)
             {
@@ -192,13 +161,13 @@ public class Portal : MonoBehaviour
                     EnterNormalStage();
                     break;
                 case 1:
-                    EnterEliteStage();
-                    break;
-                case 2:
                     EnterShopStage();
                     break;
-                case 3:
+                case 2:
                     EnterBossStage();
+                    break;
+                case 99:
+                    SceneManager.LoadScene("TestScene");
                     break;
             }
         }
@@ -206,15 +175,9 @@ public class Portal : MonoBehaviour
 
     private void EnterNormalStage()
     {
-        int index = Random.Range(1, 4);
-        SceneManager.LoadScene("NormalStage" + index);
+        SceneManager.LoadScene("NormalStage" + (stageIndex + 1));
     }
 
-    private void EnterEliteStage()
-    {
-        int index = Random.Range(1, 4);
-        SceneManager.LoadScene("EliteStage" + index);
-    }
     private void EnterShopStage()
     {
         SceneManager.LoadScene("ShopStage");

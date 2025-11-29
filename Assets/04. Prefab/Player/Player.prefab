@@ -1665,6 +1665,8 @@ MonoBehaviour:
   DashAction: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   AttackAction: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   InteractAction: {fileID: -5169207124361415031, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  SkillAction1: {fileID: 1510512049373223857, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  SkillAction2: {fileID: -7778816304527160737, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   pMove: {fileID: 4019396658377683965}
   pInteractor: {fileID: 933376426174923046}
 --- !u!143 &3252108665458667611
@@ -1702,7 +1704,7 @@ Animator:
   m_GameObject: {fileID: 7356205345965341794}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: e57e9b8cd5e115f4f8d7736473e5c7fd, type: 3}
-  m_Controller: {fileID: 9100000, guid: 897122e32635fd84aabd08908179331e, type: 2}
+  m_Controller: {fileID: 9100000, guid: f170e1785d5e40646918fdf2ba293660, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1

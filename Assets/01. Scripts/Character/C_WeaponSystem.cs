@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Player;
+using RPGCharacterAnims.Lookups;
 using System.Collections.Generic;
 using UnityEngine;
 using static Enums;
@@ -34,34 +35,22 @@ namespace Player.Weapon
             if (!_model.canAttack)
                 return;
 
-            if (currentWeapon.attackBehavior.hasCombo)
-            {
-                if (!isAttacking)
-                {
-                    isAttacking = true;
-                    combo += 1;
-                    currentWeapon.attackBehavior.Execute(_model, currentWeapon);
-                }
-                else if (attackOpen)
-                {
-                      nextAttack = true;
-                }
-            }
-            else
-            {
-                currentWeapon.attackBehavior.Execute(_model, currentWeapon);
-            }
+            currentWeapon.attackBehavior.Execute(_model, currentWeapon);
         }
 
         public void CreateWeapon(WeaponType weaponType)
         {
-            if (weaponType == WeaponType.Range)
+            if (weaponType == WeaponType.Staff)
             {
-                currentWeapon = new C_Weapon(WeaponType.Range);
+                currentWeapon = new C_Weapon(WeaponType.Staff);
+                currentWeapon.RestModStats(_model);
+                currentWeapon.Recalculate(_model);
             }
-            else if (weaponType == WeaponType.Melee)
+            else if (weaponType == WeaponType.Bow)
             {
-                currentWeapon = new C_Weapon(WeaponType.Melee);
+                currentWeapon = new C_Weapon(WeaponType.Bow);
+                currentWeapon.RestModStats(_model);
+                currentWeapon.Recalculate(_model);
             }
         }
 
@@ -100,60 +89,38 @@ namespace Player.Weapon
                 return false;
             }
 
-            currentWeapon.weaponModded.Add(modGrade, new WeaponModInstance { weaponMod = weaponMod, level = 1 });
+            currentWeapon.weaponModded.Add(modGrade, new WeaponModInstance { weaponMod = weaponMod });
             _model.GetStat().modingChance--;
             currentWeapon.weaponLevel++;
-            weaponMod.ApplyMod(currentWeapon, _model.GetStat(), currentWeapon.weaponModded[modGrade].level);
+
+            
+            currentWeapon.RestModStats(_model);
+            foreach (var kv in currentWeapon.weaponModded)
+            {
+                var mod = kv.Value.weaponMod;
+                mod.ActivateMod(currentWeapon, _model.GetStat());
+            }
+            currentWeapon.Recalculate(_model);
             Debug.Log("착용한 모드 : " + weaponMod.modName);
-            Recalculate(weapon);
             return true;
 
         }
 
-        public bool TryUpdradeMod(int modGrade, C_Weapon weapon, out string reason)
-        {
-            reason = null;
-            if (!currentWeapon.weaponModded.TryGetValue(modGrade, out var inst))
-            {
-                reason = "해당 단계의 모드가 장착되어 있지 않음";
-                return false;
-            }
-            if (inst.level >= inst.weaponMod.maxLevel)
-            {
-                reason = "모드가 이미 최대 레벨임";
-                return false;
-            }
-            if (_model.GetStat().modingChance <= 0)
-            {
-                reason = "모딩 기회가 없음";
-                return false;
-            }
-
-            inst.level++;
-            _model.GetStat().modingChance--;
-            currentWeapon.weaponLevel++;
-            Recalculate(weapon);
-            return true;
-        }
-
-        public void ResetModing(C_Weapon owner)
+        public void ResetWeapon(C_Weapon weapon)
         {
             int returnChance = 0;
             returnChance = currentWeapon.weaponLevel - 1;
             _model.GetStat().modingChance += returnChance;
             currentWeapon.weaponLevel = 1;
+
+            currentWeapon.RestModStats(_model);
             currentWeapon.weaponModded.Clear();
-            Recalculate(owner);
+            currentWeapon = null;
         }
 
         public void ResetWeapon()
         {
-            if (currentWeapon != null)
-            {
-
-                currentWeapon = null;
-            }
-            else return;         
+            ResetWeapon(currentWeapon);
         }
 
         public void ApplyMods(ref List<GameObject> projectiles, float speed)
@@ -165,33 +132,10 @@ namespace Player.Weapon
             foreach (var kv in weapon.weaponModded)
             {
                 var mod = kv.Value.weaponMod;
-                mod.OnFire(weapon, ref projectiles,speed,kv.Value.level);
+                mod.OnFire(weapon, ref projectiles,speed);
             }
         }
 
-        public void Recalculate(C_Weapon owner)
-        {
-            float baseDamage = (currentWeapon.weaponType == Enums.WeaponType.Range) ? 5f : 7f;
-            float addDamege = 0f;
-            float attackSpeedM = 1f;
-
-            foreach (var kv in currentWeapon.weaponModded)
-            {
-                var inst = kv.Value;
-                var mod = inst.weaponMod;
-                int lv = inst.level;
-
-                mod.ApplyMod(currentWeapon, _model.GetStat(), lv);
-
-            }
-
-            currentWeapon.weaponDamage = baseDamage + addDamege;
-            owner.weaponDamage = currentWeapon.weaponDamage;
-            owner.weaponAttackSpeed = 1f * attackSpeedM;
-            Debug.Log(owner.weaponDamage);
-            Debug.Log(owner.weaponAttackSpeed);
-            Debug.Log(currentWeapon.weaponLevel);
-        }
         #endregion
     }
 }

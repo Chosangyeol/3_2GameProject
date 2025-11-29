@@ -71,7 +71,7 @@ public class RangeDefaultBehavior : IPlayerAttackBe
     // 실제 화살 발사
     private void FireArrow(C_Model attacker)
     {
-        float totalDamage = attacker.WeaponSystem.CurrentWeapon.weaponDamage + attacker.GetStat().damage;
+        float totalDamage = attacker.WeaponSystem.CurrentWeapon.totalWeaponDamage + attacker.GetStat().damage;
 
         float ratio = Mathf.Clamp01(currentCharge / maxChargeTime);
         float finalSpeed = Mathf.Lerp(speed, speed*maxSpeed, ratio);

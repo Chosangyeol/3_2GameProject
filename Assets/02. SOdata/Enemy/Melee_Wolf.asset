@@ -20,5 +20,7 @@ MonoBehaviour:
   detectRange: 10
   moveSpeed: 3
   attackSpeed: 2
+  dropMoneyMin: 10
+  dropMoneyMax: 15
   itemDropTable: {fileID: 0}
   itemDropPersent: 0

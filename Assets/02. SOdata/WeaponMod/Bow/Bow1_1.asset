@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c25e1c1a972d59c40b63a06f1904a2ce, type: 3}
+  m_Name: Bow1_1
+  m_EditorClassIdentifier: 
+  modType: 0
+  allowedWeaponType: 1
+  modName: "\uD65C1-1"
+  modDesc: "\uD65C1-1 \uC124\uBA85"
+  modGrade: 1
+  maxLevel: 2
