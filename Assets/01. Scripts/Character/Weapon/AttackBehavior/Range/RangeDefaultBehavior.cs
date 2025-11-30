@@ -93,7 +93,7 @@ public class RangeDefaultBehavior : IPlayerAttackBe
 
         // ProjectileDamage 컴포넌트가 있다면 데미지 전달
         if (proj.TryGetComponent(out PlayerProjectile pd))
-            pd.damage = finalDamage;
+            pd.damage = Mathf.RoundToInt(finalDamage);
 
         List<GameObject> projectiles = new List<GameObject> { proj.gameObject };
         attacker.WeaponSystem.ApplyMods(ref projectiles, finalSpeed);

@@ -34,6 +34,9 @@ public class EnemyBase : PoolableMono
 
     private bool damaged = false;
 
+    public ParticleSystem damagedEffect;
+
+
     #region Unity Event
     protected virtual void Awake()
     {
@@ -89,6 +92,7 @@ public class EnemyBase : PoolableMono
     public void TakeDamage(int amount)
     {
         Stat.curHp -= amount;
+        damagedEffect.Play();
         hpChanged?.Invoke(Stat.curHp, Stat.maxHp);
         if (damaged == false)
         {

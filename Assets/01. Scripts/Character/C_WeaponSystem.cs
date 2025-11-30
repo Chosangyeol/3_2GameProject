@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using Player;
 using RPGCharacterAnims.Lookups;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Enums;
@@ -18,6 +19,9 @@ namespace Player.Weapon
         public bool isAttacking = false;
         public bool attackOpen = false;
         public bool nextAttack = false;
+
+        public bool isSkill1Cool = false;
+        public bool isSkill2Cool = false;
 
         public const int MinGrade = 1;
         public const int MaxGrade = 4;
@@ -113,6 +117,12 @@ namespace Player.Weapon
             _model.GetStat().modingChance += returnChance;
             currentWeapon.weaponLevel = 1;
 
+            foreach (var kv in currentWeapon.weaponModded)
+            {
+                var mod = kv.Value.weaponMod;
+                mod.DeactivateMod(currentWeapon, _model.GetStat());
+            }
+
             currentWeapon.RestModStats(_model);
             currentWeapon.weaponModded.Clear();
             currentWeapon = null;
@@ -134,6 +144,48 @@ namespace Player.Weapon
                 var mod = kv.Value.weaponMod;
                 mod.OnFire(weapon, ref projectiles,speed);
             }
+        }
+
+        #endregion
+
+        #region Skill
+
+        public void UseSkill1()
+        {
+            if (CurrentWeapon == null) return;
+            if (!currentWeapon.weaponSkills.ContainsKey(1))
+                return;
+
+            _model.StartCoroutine(Skill1Cooldown(5f));
+            currentWeapon.weaponSkills[1].ActiveSkill();
+        }
+
+        public void UseSkill2()
+        {
+            if (CurrentWeapon == null) return;
+            if (!currentWeapon.weaponSkills.ContainsKey(2))
+                return;
+
+            _model.StartCoroutine(Skill2Cooldown(5f));
+            currentWeapon.weaponSkills[2].ActiveSkill();
+        }
+
+        IEnumerator Skill1Cooldown(float cool)
+        {
+            isSkill1Cool = true;
+            Debug.Log("Skill 1 used, cooldown started.");
+            yield return new WaitForSeconds(cool);
+            Debug.Log("Skill 1 used, cooldown End.");
+            isSkill1Cool = false;
+        }
+
+        IEnumerator Skill2Cooldown(float cool)
+        {
+            isSkill2Cool = true;
+            Debug.Log("Skill 2 used, cooldown started.");
+            yield return new WaitForSeconds(cool);
+            Debug.Log("Skill 2 used, cooldown End.");
+            isSkill2Cool = false;
         }
 
         #endregion

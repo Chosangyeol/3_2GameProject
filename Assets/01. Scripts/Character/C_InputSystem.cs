@@ -18,14 +18,12 @@ namespace Player
 
         private C_Movement pMove;
         private C_Interactor pInteractor;
-        private C_Skill pSkill;
 
 
         private void Awake()
         {
             pMove = GetComponent<C_Movement>();
             pInteractor = GetComponent<C_Interactor>();
-            pSkill = _model.Skill;
         }
         private void OnEnable()
         {

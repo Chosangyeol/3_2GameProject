@@ -22,14 +22,6 @@ namespace Player
 
         protected C_Inventory _inventory;
         protected C_WeaponSystem _weaponSystem;
-        protected C_Skill _skill;
-
-        [Header("테스트용 변수")]
-        public List<WeaponModSO> modList1;
-        public List<WeaponModSO> modList2;
-        private int weaponindex1 = 0;
-        private int weaponindex2 = 0;
-        private string reason;
 
         [HideInInspector]
         public CharacterController cc;
@@ -38,10 +30,11 @@ namespace Player
 
         public C_Inventory Inventory { get => _inventory; }
         public C_WeaponSystem WeaponSystem { get => _weaponSystem; }
-        public C_Skill Skill { get => _skill; }
 
         public bool isAlive = true;
         public bool isMoveable { get; private set; }
+
+        public ParticleSystem damagedEffect;
 
         public event Action<C_StatBase> ActionCallbaskStatChanged;
         public event Action<C_StatBase> ActionCallbackItemChanged;
@@ -82,7 +75,6 @@ namespace Player
             if (statBase == null) statBase = new C_StatBase(statSO);
             _inventory = new C_Inventory(this);
             _weaponSystem = new C_WeaponSystem(this);
-            _skill = new C_Skill(this);
             _anim = GetComponentInChildren<Animator>();
 
             canAttack = false;
@@ -103,6 +95,7 @@ namespace Player
         public void Damaged(int damage, GameObject attacker = null)
         {
             statBase.curHp -= damage;
+            damagedEffect.Play();
             Debug.Log(statBase.curHp);
             ActionCallbaskStatChanged?.Invoke(statBase);
             if (statBase.curHp <= 0 && isAlive == true)
@@ -195,14 +188,47 @@ namespace Player
         {
             if (index == 1)
             {
-                if (Skill.isSkill1Cool) return;
-                Skill.UseSkill1();
+                if (WeaponSystem.isSkill1Cool) return;
+                WeaponSystem.UseSkill1();
             }
             else if (index == 2)
             {
-                if (Skill.isSkill2Cool) return;
-                Skill.UseSkill2();
+                if (WeaponSystem.isSkill2Cool) return;
+                WeaponSystem.UseSkill2();
             }
+        }
+
+        #endregion
+
+        #region Debug/Test
+
+        public Vector3 previewCenter;
+        public float previewRadius;
+        public float previewHeight;
+        public bool showPreview;
+
+        private void OnDrawGizmos()
+        {
+            if (!showPreview) return;
+
+            Gizmos.color = new Color(0f, 1f, 1f, 0.4f);
+
+            Vector3 center = previewCenter;
+            float radius = previewRadius;
+            float height = previewHeight;
+
+            Vector3 top = center + Vector3.up * height;
+            Vector3 bottom = center;
+
+            // 위/아래 원
+            Gizmos.DrawWireSphere(bottom, radius);
+            Gizmos.DrawWireSphere(top, radius);
+
+            // 옆 라인 4개
+            Gizmos.DrawLine(bottom + Vector3.right * radius, top + Vector3.right * radius);
+            Gizmos.DrawLine(bottom - Vector3.right * radius, top - Vector3.right * radius);
+            Gizmos.DrawLine(bottom + Vector3.forward * radius, top + Vector3.forward * radius);
+            Gizmos.DrawLine(bottom - Vector3.forward * radius, top - Vector3.forward * radius);
         }
 
         #endregion

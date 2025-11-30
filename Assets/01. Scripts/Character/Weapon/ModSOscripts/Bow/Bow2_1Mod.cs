@@ -30,7 +30,7 @@ public class Bow2_1Mod : WeaponModSO
 
             if (proj.TryGetComponent(out PlayerProjectile pd))
             {
-                pd.damage *= secondShotDamage;
+                pd.damage = Mathf.RoundToInt(pd.damage * secondShotDamage);
             }
 
             Rigidbody rb = proj.GetComponent<Rigidbody>();

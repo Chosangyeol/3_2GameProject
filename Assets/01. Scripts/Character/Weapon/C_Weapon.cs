@@ -28,6 +28,8 @@ public class C_Weapon
 
     public int weaponLevel;
     public Dictionary<int, WeaponModInstance> weaponModded = new Dictionary<int, WeaponModInstance>();
+    public Dictionary<int, SkillSO> weaponSkills = new Dictionary<int, SkillSO>();
+
 
     
     public C_Weapon(Enums.WeaponType weaponType)
@@ -84,5 +86,24 @@ public class C_Weapon
         owner.AddAttackSpeed(totalWeaponAttackSpeed);
         owner.AddCritRate(totalCritRate);
         owner.AddCritDamage(totalCritDamage);
+    }
+
+    public void AddSkill(int slot, SkillSO skillSO)
+    {
+        if (!weaponSkills.ContainsKey(slot))
+        {
+            weaponSkills.Add(slot, skillSO);
+            skillSO.InitSkill(owner);
+            Debug.Log($"스킬 {skillSO.skillName}이(가) 슬롯 {slot}에 추가되었습니다.");
+        }
+    }
+
+    public void RemoveSkill(int slot)
+    {
+        if (weaponSkills.ContainsKey(slot))
+        {
+            weaponSkills.Remove(slot);
+            Debug.Log($"슬롯 {slot}의 스킬이 제거되었습니다.");
+        }
     }
 }

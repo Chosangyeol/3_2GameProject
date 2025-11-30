@@ -4,22 +4,36 @@ public class PlayerProjectile : PoolableMono
 {
 
     [HideInInspector]
-    public float damage;
+    public int damage;
     public float speed;
-    public float damageMultiplier = 1f;
+    public bool isReady = true;
+
+    public bool isExplosive = false;
+    public float explosiveRadius = 0f;
 
     public override void Reset()
     {
         base.Reset();
     }
 
+    private void Update()
+    {
+        ColOn();
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") && !isExplosive)
         {
             Debug.Log("利 利吝 / " + damage );
-            other.GetComponent<EnemyBase>().TakeDamage(Mathf.RoundToInt(damage * damageMultiplier));
+            other.GetComponent<EnemyBase>().TakeDamage(damage);
+            PoolManager.Instance.Push(this);
+        }
+
+        if (other.CompareTag("Enemy") && isExplosive)
+        {
+            Explosive();
             PoolManager.Instance.Push(this);
         }
 
@@ -27,5 +41,24 @@ public class PlayerProjectile : PoolableMono
         {
             PoolManager.Instance.Push(this);
         }
+    }
+
+    private void Explosive()
+    {
+        Collider[] cols = Physics.OverlapSphere(transform.position, explosiveRadius);
+        foreach (var col in cols)
+        {
+            EnemyBase enemy = col.GetComponent<EnemyBase>();
+            if (enemy != null)
+            {
+                Debug.Log("利 利吝 / " + damage);
+                enemy.TakeDamage(damage);
+            }
+        }
+    }
+
+    public void ColOn()
+    {
+        GetComponent<Collider>().enabled = isReady;
     }
 }

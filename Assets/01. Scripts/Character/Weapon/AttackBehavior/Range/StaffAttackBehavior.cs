@@ -16,6 +16,8 @@ public class StaffAttackBehavior : IPlayerAttackBe
     private float currentCharge;
     private Coroutine chargeRoutine;
 
+    private PoolableMono attackProj;
+
     public StaffAttackBehavior(GameObject projectile)
     {
         this.projectile = projectile;
@@ -32,6 +34,9 @@ public class StaffAttackBehavior : IPlayerAttackBe
         if (isCharging) return;
         isCharging = true;
         currentCharge = 0f;
+        attackProj = PoolManager.Instance.Pop(projectile.name);
+        attackProj.transform.position = (attacker.transform.position + new Vector3(0, 1, 0)) + attacker.transform.forward * 1.5f;
+        attackProj.GetComponent<PlayerProjectile>().isReady = false;
         chargeRoutine = attacker.StartCoroutine(ChargeRoutine(attacker));
     }
 
@@ -52,13 +57,16 @@ public class StaffAttackBehavior : IPlayerAttackBe
     private IEnumerator ChargeRoutine(C_Model attacker)
     {
         attacker.canMove = false;
+
         while (isCharging)
         {
             currentCharge += Time.deltaTime;
             float ratio = Mathf.Clamp01(currentCharge / maxChargeTime);
 
             Vector3 dir = GetMouseDirection(attacker);
+
             attacker.transform.forward = dir;
+            attackProj.transform.position = (attacker.transform.position + new Vector3(0, 1, 0)) + dir * 1.5f;
 
             yield return null;
 
@@ -68,6 +76,8 @@ public class StaffAttackBehavior : IPlayerAttackBe
 
     private void FireBall(C_Model attacker)
     {
+        attackProj.GetComponent<PlayerProjectile>().isReady = true;
+
         float totalDamage = attacker.GetStat().damage;
 
         float ratio = Mathf.Clamp01(currentCharge / maxChargeTime);
@@ -76,25 +86,24 @@ public class StaffAttackBehavior : IPlayerAttackBe
             totalDamage,
             totalDamage * 1.7f,
             ratio);
-        float ballSize = Mathf.Lerp(1f, 2f, ratio);
+        float ballSize = Mathf.Lerp(0.5f, 1f, ratio);
 
         Vector3 dir = GetMouseDirection(attacker);
         attacker.transform.forward = dir;
 
-        PoolableMono proj = PoolManager.Instance.Pop(projectile.name);
-        proj.transform.position = (attacker.transform.position + new Vector3(0,ballSize/2,0)) + dir * 1.2f;
-        proj.transform.rotation = Quaternion.LookRotation(dir);
-        proj.transform.localScale = Vector3.one * ballSize;
+        attackProj.transform.position = (attacker.transform.position + new Vector3(0,ballSize/2,0)) + dir * 1.5f;
+        attackProj.transform.rotation = Quaternion.LookRotation(dir);
+        attackProj.transform.localScale = Vector3.one * ballSize;
 
-        Rigidbody rb = proj.GetComponent<Rigidbody>();
+        Rigidbody rb = attackProj.GetComponent<Rigidbody>();
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
         // ProjectileDamage 컴포넌트가 있다면 데미지 전달
-        if (proj.TryGetComponent(out PlayerProjectile pd))
-            pd.damage = finalDamage;
+        if (attackProj.TryGetComponent(out PlayerProjectile pd))
+            pd.damage = Mathf.RoundToInt(finalDamage);
 
-        List<GameObject> projectiles = new List<GameObject> { proj.gameObject };
+        List<GameObject> projectiles = new List<GameObject> { attackProj.gameObject };
         attacker.WeaponSystem.ApplyMods(ref projectiles, finalSpeed);
 
         foreach (var p in projectiles)
