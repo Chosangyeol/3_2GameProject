@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,13 @@ namespace Player.Item
         public event Action ActionBeforeRemoveItem;
         public event Action ActionAfterRemoveItem;
 
+        public bool hasSkillItem = false;
+
+        public bool isSkill3Cool = false;
+
+        public AItem skillItem;
+        public SkillSO itemSkillSO;
+
         public C_Inventory(C_Model model)
         {
             this._model = model;
@@ -26,6 +34,7 @@ namespace Player.Item
         public void AddItem(AItem item)
         {
             ActionBeforeAddItem?.Invoke();
+            CheckSkillItem(item);
             item.OnAddInventory(_model);
             items.Add(item);
             ActionAfterAddItem?.Invoke();
@@ -53,6 +62,39 @@ namespace Player.Item
                 return (true);
             }
             return (false);
+        }
+
+        public void CheckSkillItem(AItem item)
+        {
+            if (item is Item_AddSkill)
+            {
+                foreach (AItem aitem in items)
+                {
+                    if (aitem is Item_AddSkill)
+                    {
+                        RemoveItem(aitem);
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void UseSkill3()
+        {
+            if (!hasSkillItem) return;
+            if (itemSkillSO == null) return;
+
+            _model.StartCoroutine(Skill3Cooldown(5f));
+            itemSkillSO.ActiveSkill();
+        }
+
+        IEnumerator Skill3Cooldown(float cool)
+        {
+            isSkill3Cool = true;
+            Debug.Log("Skill 3 used, cooldown started.");
+            yield return new WaitForSeconds(cool);
+            Debug.Log("Skill 3 used, cooldown End.");
+            isSkill3Cool = false;
         }
     }
 }

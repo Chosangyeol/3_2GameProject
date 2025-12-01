@@ -16,16 +16,21 @@ namespace Player.Item
 		public event Action ActionBeforeRemoveItem;
 		public event Action ActionAfterRemoveItem;
 
+		public bool hasSkillItem = false;
+		public SkillSO itemSkillSO;
+
 		public Inventory(C_Model playerModel)
 		{
 			this.playerModel = playerModel;
 			items = new List<AItem>();
+
 			return ;
 		}
 
 		public void AddItem(AItem item)
 		{
 			ActionBeforeAddItem?.Invoke();
+			CheckSkillItem(item);
 			item.OnAddInventory(playerModel);
 			items.Add(item);
 			ActionAfterAddItem?.Invoke();
@@ -54,6 +59,21 @@ namespace Player.Item
 				return (true);
 			}
 			return (false);
+		}
+
+		public void CheckSkillItem(AItem item)
+		{
+            if (item is Item_AddSkill)
+            {
+                foreach (AItem aitem in items)
+                {
+                    if (aitem is Item_AddSkill)
+                    {
+                        RemoveItem(aitem);
+                        break;
+                    }
+                }
+            }  
 		}
 	}
 }

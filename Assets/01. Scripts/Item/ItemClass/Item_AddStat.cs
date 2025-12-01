@@ -27,7 +27,7 @@ namespace Player.Item
         public override void OnRemoveInventory(C_Model model)
         {
             Debug.Log( data.itemName + " ªË¡¶µ ");
-           RemoveStat(model,data.increAmount);
+            RemoveStat(model,data.increAmount);
         }
 
         private void AddStat(C_Model model,float amount)

@@ -41,6 +41,9 @@ namespace Player
 
         private Animator _anim;
         public Animator Anim => _anim;
+        public PoolableMono testItem;
+        public PoolableMono testItem2;
+
 
         public C_StatBase GetStat()
         {
@@ -82,6 +85,8 @@ namespace Player
 
         protected virtual void Start()
         {
+            PoolManager.Instance.Pop(testItem.name);
+            PoolManager.Instance.Pop(testItem2.name);
 
         }
 
@@ -195,6 +200,11 @@ namespace Player
             {
                 if (WeaponSystem.isSkill2Cool) return;
                 WeaponSystem.UseSkill2();
+            }
+            else if (index == 3)
+            {
+                if (Inventory.isSkill3Cool) return; 
+                Inventory.UseSkill3();
             }
         }
 

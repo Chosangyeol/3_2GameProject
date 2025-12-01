@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Skill3",
+                    "type": "Button",
+                    "id": "a8d3261d-7778-40ac-9471-7ce60c830e29",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -212,6 +221,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Skill2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a58ca226-627b-4b12-be13-0f2e34127300",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skill3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

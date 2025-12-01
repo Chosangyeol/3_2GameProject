@@ -407,6 +407,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   lastAttackTime: 0
   player: {fileID: 0}
+  damagedEffect: {fileID: 3642160410948286680, guid: 171dda363e9efd94ca9bc63e38ca9658, type: 3}
 --- !u!95 &8920059362048848780
 Animator:
   serializedVersion: 7

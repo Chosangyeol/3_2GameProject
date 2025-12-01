@@ -1599,20 +1599,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statSO: {fileID: 11400000, guid: 693454a3b97088e44a25bdba39f6e772, type: 2}
-  modList1:
-  - {fileID: 0}
-  - {fileID: 11400000, guid: cf6a76b64a387f9489a7574c3dd4d992, type: 2}
-  - {fileID: 11400000, guid: d5d639a90a48ba04e99692d4e4a175ef, type: 2}
-  - {fileID: 11400000, guid: b6da3649bc7e00841bb4e30fc880bfed, type: 2}
-  modList2:
-  - {fileID: 11400000, guid: 87b724b167eb8b8408864f1d34813f79, type: 2}
-  - {fileID: 11400000, guid: 8336b25375aef064b893d55a8b83b86b, type: 2}
-  - {fileID: 11400000, guid: 6dcfb7dc48c9bee42a0c29d454704c35, type: 2}
-  - {fileID: 11400000, guid: b6da3649bc7e00841bb4e30fc880bfed, type: 2}
   cc: {fileID: 0}
   canAttack: 0
   canMove: 1
   isAlive: 1
+  damagedEffect: {fileID: 0}
   previewCenter: {x: 0, y: 0, z: 0}
   previewRadius: 0
   previewHeight: 0
@@ -1672,6 +1663,7 @@ MonoBehaviour:
   InteractAction: {fileID: -5169207124361415031, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   SkillAction1: {fileID: 1510512049373223857, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   SkillAction2: {fileID: -7778816304527160737, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  SkillAction3: {fileID: -3754649196989208227, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!143 &3252108665458667611
 CharacterController:
   m_ObjectHideFlags: 0

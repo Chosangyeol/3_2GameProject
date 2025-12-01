@@ -15,6 +15,7 @@ namespace Player
         public InputActionReference InteractAction;
         public InputActionReference SkillAction1;
         public InputActionReference SkillAction2;
+        public InputActionReference SkillAction3;
 
         private C_Movement pMove;
         private C_Interactor pInteractor;
@@ -33,6 +34,7 @@ namespace Player
             EnableAction(InteractAction);
             EnableAction(SkillAction1);
             EnableAction(SkillAction2);
+            EnableAction(SkillAction3);
 
             if (DashAction && DashAction.action != null)
                 DashAction.action.started += OnDashStart;
@@ -52,6 +54,9 @@ namespace Player
 
             if (SkillAction2 && SkillAction2.action != null)
                 SkillAction2.action.started += OnSkill2;
+
+            if (SkillAction3 && SkillAction3.action != null)
+                SkillAction3.action.started += OnSkill3;
         }
 
         private void OnDisable()
@@ -62,6 +67,7 @@ namespace Player
             DisableAction(InteractAction);
             DisableAction(SkillAction1);
             DisableAction(SkillAction2);
+            DisableAction(SkillAction3);
 
             if (DashAction && DashAction.action != null)
                 DashAction.action.started -= OnDashStart;
@@ -78,6 +84,9 @@ namespace Player
 
             if (SkillAction2 && SkillAction2.action != null)
                 SkillAction2.action.started -= OnSkill2;
+
+            if (SkillAction3 && SkillAction3.action != null)
+                SkillAction3.action.started -= OnSkill3;
         }
 
         private void Update()
@@ -141,6 +150,11 @@ namespace Player
         private void OnSkill2(InputAction.CallbackContext c)
         {
             _model.UseSkill(2);
+        }
+
+        private void OnSkill3(InputAction.CallbackContext c)
+        {
+            _model.UseSkill(3);
         }
 
         private static void EnableAction(InputActionReference r)

@@ -333,9 +333,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   lastAttackTime: 0
   player: {fileID: 0}
-  onHealthChanged:
-    m_PersistentCalls:
-      m_Calls: []
+  damagedEffect: {fileID: 3642160410948286680, guid: 171dda363e9efd94ca9bc63e38ca9658, type: 3}
   projectile: {fileID: 1592820566698541400, guid: 37e2b132902ffb248813a5974d27b42c, type: 3}
   firePos: {fileID: 8396142667963280294}
 --- !u!95 &7278641892590672145

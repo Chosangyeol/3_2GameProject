@@ -1,8 +1,7 @@
 using Player;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Skill", menuName = "SkillSO/CrystalRain" +
-    "SO")]
+[CreateAssetMenu(fileName = "New Skill", menuName = "SkillSO/CrystalRain")]
 public class CrystalRainSO : SkillSO
 {
     private CrystalRain crystalRain;
