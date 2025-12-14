@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 public class EnemyBase : PoolableMono
 {
     public EnemySO enemySO;
-    private EnemyStat Stat;
+    protected EnemyStat Stat;
 
     [HideInInspector]
     public NavMeshAgent agent;
@@ -32,7 +32,12 @@ public class EnemyBase : PoolableMono
     protected StateMachine fsm;
     public StateMachine Fsm => fsm;
 
+    public bool isAttack = false;
+
     private bool damaged = false;
+
+    private bool isDie = false;
+    public bool IsDie => isDie;
 
     public ParticleSystem damagedEffect;
 
@@ -42,17 +47,19 @@ public class EnemyBase : PoolableMono
     {
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         fsm = new StateMachine();
+
+        agent.speed = enemySO.moveSpeed;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         fsm.Tick();
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         fsm.FixedTick();
     }
@@ -89,10 +96,11 @@ public class EnemyBase : PoolableMono
         fsm.ChangeState(new State_Chase(this, fsm));
     }
 
-    public void TakeDamage(int amount)
+    public virtual void TakeDamage(int amount)
     {
         Stat.curHp -= amount;
         damagedEffect.Play();
+        Debug.Log(Stat.curHp);
         hpChanged?.Invoke(Stat.curHp, Stat.maxHp);
         if (damaged == false)
         {
@@ -168,7 +176,11 @@ public class EnemyBase : PoolableMono
             PoolableMono dropItem = PoolManager.Instance.Pop(selectedItem.name);
             dropItem.gameObject.transform.position = this.gameObject.transform.position;
         }
+    }
 
-
+    public virtual IEnumerator AttackDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        fsm.ChangeState(new State_Chase(this, fsm));
     }
 }

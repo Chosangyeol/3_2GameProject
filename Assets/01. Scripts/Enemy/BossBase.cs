@@ -4,6 +4,8 @@ using UnityEngine;
 public class BossBase : EnemyBase
 {
     public int patternCount;
+    public bool specialTrigger = false;
+    public bool wasSpecial = false;
     protected override void Awake()
     {
         base.Awake();
@@ -25,7 +27,6 @@ public class BossBase : EnemyBase
     public override void StartAttack(int patternIndex = 0)
     {
         attackBehavior.ExecuteAttack(this, patternIndex);
-        StartCoroutine(Wait(3f));
     }
 
     private void TryBossDrop(DropTableSO dropTable)
@@ -33,11 +34,17 @@ public class BossBase : EnemyBase
         Debug.Log("보스 아이템 드랍");
     }
 
-    //임시
-    private IEnumerator Wait(float seconds)
+    public override IEnumerator AttackDelay(float delay)
     {
-        Debug.Log("대기");
-        yield return new WaitForSeconds(seconds);
-        fsm.ChangeState(new State_BossChase(this, fsm, patternCount));
+        yield return new WaitForSeconds(delay);
+        if (!specialTrigger)
+        {
+            isAttack = false;
+            fsm.ChangeState(new State_BossChase(this, fsm, patternCount));
+        }
+        else
+        {
+            isAttack = false;
+        }
     }
 }

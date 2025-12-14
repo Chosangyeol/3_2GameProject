@@ -8,8 +8,7 @@ public class EnemyStat
     public int maxHp;
     public int curHp;
 
-    public int baseDamage;
-    public int totalDamage;
+    public int damage;
 
     public float moveSpeed;
     public float attackSpeed;
@@ -24,7 +23,7 @@ public class EnemyStat
         this.enemySO = enemySO;
         this.maxHp = enemySO.maxHp;
         this.curHp = maxHp;
-        this.baseDamage = enemySO.damage;
+        this.damage = enemySO.damage;
         this.moveSpeed = enemySO.moveSpeed;
         this.attackSpeed = enemySO.attackSpeed;
     }

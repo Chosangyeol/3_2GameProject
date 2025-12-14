@@ -49,8 +49,7 @@ public class UIManager : MonoBehaviour
 
         _model = GameObject.FindGameObjectWithTag("Player").GetComponent<C_Model>();
 
-
-        debugText.text =
+        debugText.text = 
             "MaxHp : " + _model.GetStat().maxHp + "\n" +
             "CurHp : " + _model.GetStat().curHp + "\n" +
             "Damage : " + _model.GetStat().damage + "\n" +

@@ -24,9 +24,14 @@ public class State_BossChase : IState
     {
         float dist = Vector3.Distance(enemy.transform.position, enemy.player.position);
 
+        RotateToPlayer(enemy, 5f);
+
         if (dist <= enemy.enemySO.attackRange)
         {
-            fsm.ChangeState(new State_BossAttack(enemy, fsm, patternCount, patternIndex));
+            if (IsFacingPlayer(enemy, 5f))
+            {
+                fsm.ChangeState(new State_BossAttack(enemy, fsm, patternCount, patternIndex));
+            }
         }
         else
         {
@@ -39,5 +44,24 @@ public class State_BossChase : IState
     public void OnExit()
     {
         enemy.agent.ResetPath();
+        enemy.anim.SetBool("Move", false);
+    }
+
+    private void RotateToPlayer(EnemyBase enemy, float rotSpeed)
+    {
+        Vector3 dir = (enemy.player.position - enemy.transform.position);
+        dir.y = 0;
+
+        Quaternion targetRot = Quaternion.LookRotation(dir);
+        enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, targetRot, Time.deltaTime * rotSpeed);
+    }
+
+    private bool IsFacingPlayer(EnemyBase enemy, float thresholdAngle = 5f)
+    {
+        Vector3 dir = (enemy.player.position - enemy.transform.position).normalized;
+        dir.y = 0;
+
+        float angle = Vector3.Angle(enemy.transform.forward, dir);
+        return angle < thresholdAngle;
     }
 }

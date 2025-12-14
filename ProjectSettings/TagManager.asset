@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Enemy
   - Wall
+  - Boss1Center
+  - Boss2Wall
+  - Boss2Center
+  - Boss2Walls
+  - Boss2SpecialWarning
   layers:
   - Default
   - TransparentFX
@@ -17,7 +22,7 @@ TagManager:
   - Projectile
   - Ground
   - Interactable
-  - 
+  - BossObject
   - 
   - 
   - 

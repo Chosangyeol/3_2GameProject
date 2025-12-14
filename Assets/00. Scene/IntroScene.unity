@@ -5303,6 +5303,10 @@ PrefabInstance:
       propertyPath: testItem2
       value: 
       objectReference: {fileID: 3477633753598981552, guid: 148f7c970a3c9c34bab0cec0c013dab0, type: 3}
+    - target: {fileID: 2258408630951961035, guid: 2b805a4d541a88c4c8e73afad09a700b, type: 3}
+      propertyPath: damagedEffect
+      value: 
+      objectReference: {fileID: 634374797}
     - target: {fileID: 3288081516147158556, guid: 2b805a4d541a88c4c8e73afad09a700b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3
@@ -5356,6 +5360,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b805a4d541a88c4c8e73afad09a700b, type: 3}
+--- !u!198 &634374797 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7609605182611707929, guid: 2b805a4d541a88c4c8e73afad09a700b, type: 3}
+  m_PrefabInstance: {fileID: 634374796}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &636243817
 GameObject:
   m_ObjectHideFlags: 0

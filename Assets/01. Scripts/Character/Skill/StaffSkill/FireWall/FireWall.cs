@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FireWall : MousePointSkill
+public class FireWall
 {
     
 }
