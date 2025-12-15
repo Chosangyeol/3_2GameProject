@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: "\uC11C\uB9AC \uBE44"
   skillDesc: "\uB9C8\uC6B0\uC2A4 \uC704\uCE58\uC5D0 \uACE0\uB4DC\uB984\uC744 \uB5A8\uC5B4\uB728\uB9B0\uB2E4."
+  skillImage: {fileID: 21300000, guid: e30d9b061a327664bb50a3754c68c392, type: 3}
   skillCooldown: 1
   skillEffect: {fileID: 2552903038563291788, guid: 6cd1bd5bc357904448e06af94f98a0b8, type: 3}
+  skillDamage: 1

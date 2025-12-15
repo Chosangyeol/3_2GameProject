@@ -7,6 +7,7 @@ public class SkillSO : ScriptableObject
     [Header("Skill Info")]
     public string skillName;
     public string skillDesc;
+    public Sprite skillImage;
     public float skillCooldown;
     public GameObject skillEffect;
 

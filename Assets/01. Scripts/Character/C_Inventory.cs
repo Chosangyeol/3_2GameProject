@@ -17,6 +17,10 @@ namespace Player.Item
         public event Action ActionBeforeRemoveItem;
         public event Action ActionAfterRemoveItem;
 
+        public event Action<SkillSO> OnSkillAdd;
+        public event Action OnSkillRemove;
+        public event Action<int, float> OnSkill3Cool;
+
         public bool hasSkillItem = false;
 
         public bool isSkill3Cool = false;
@@ -79,6 +83,21 @@ namespace Player.Item
             }
         }
 
+        public void AddSkill3(SkillSO skill)
+        {
+            itemSkillSO = skill;
+            hasSkillItem = true;
+            skill.InitSkill(_model);
+            OnSkillAdd?.Invoke(skill);
+        }
+
+        public void RemoveSkill3()
+        {
+            itemSkillSO = null;
+            hasSkillItem = false;
+            OnSkillRemove?.Invoke();
+        }
+
         public void UseSkill3()
         {
             if (!hasSkillItem) return;
@@ -92,6 +111,7 @@ namespace Player.Item
         {
             isSkill3Cool = true;
             Debug.Log("Skill 3 used, cooldown started.");
+            OnSkill3Cool?.Invoke(3, cool);
             yield return new WaitForSeconds(cool);
             Debug.Log("Skill 3 used, cooldown End.");
             isSkill3Cool = false;

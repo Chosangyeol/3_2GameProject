@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using Player;
 using RPGCharacterAnims.Lookups;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,8 @@ namespace Player.Weapon
 
         public C_Weapon CurrentWeapon { get => currentWeapon; }
 
+        public event Action<C_Weapon> OnWeaponReady;
+
         public int combo = 0;
         public bool isAttacking = false;
         public bool attackOpen = false;
@@ -22,6 +25,9 @@ namespace Player.Weapon
 
         public bool isSkill1Cool = false;
         public bool isSkill2Cool = false;
+
+        public event Action<int, float> OnSkill1Cooldown; 
+        public event Action<int, float> OnSkill2Cooldown;
 
         public const int MinGrade = 1;
         public const int MaxGrade = 4;
@@ -56,6 +62,8 @@ namespace Player.Weapon
                 currentWeapon.RestModStats(_model);
                 currentWeapon.Recalculate(_model);
             }
+
+            OnWeaponReady?.Invoke(CurrentWeapon);
         }
 
         #region Weapon Moding
@@ -174,6 +182,7 @@ namespace Player.Weapon
         {
             isSkill1Cool = true;
             Debug.Log("Skill 1 used, cooldown started.");
+            OnSkill1Cooldown?.Invoke(1,cool);
             yield return new WaitForSeconds(cool);
             Debug.Log("Skill 1 used, cooldown End.");
             isSkill1Cool = false;
@@ -183,6 +192,7 @@ namespace Player.Weapon
         {
             isSkill2Cool = true;
             Debug.Log("Skill 2 used, cooldown started.");
+            OnSkill2Cooldown?.Invoke(2, cool);
             yield return new WaitForSeconds(cool);
             Debug.Log("Skill 2 used, cooldown End.");
             isSkill2Cool = false;

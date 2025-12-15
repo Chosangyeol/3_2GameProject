@@ -30,14 +30,11 @@ public class Item_AddSkill : AItem
 
     public void AddSkill(C_Model model, SkillSO skillSO)
     {
-        model.Inventory.itemSkillSO = skillSO;
-        model.Inventory.hasSkillItem = true;
-        skillSO.InitSkill(model);
+        model.Inventory.AddSkill3(skillSO);
     }
 
     public void RemoveSkill(C_Model model, SkillSO skillSO)
     {
-        model.Inventory.itemSkillSO = null;
-        model.Inventory.hasSkillItem = false;
+        model.Inventory.RemoveSkill3();
     }
 }

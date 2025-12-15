@@ -1,14 +1,21 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossBase : EnemyBase
 {
     public int patternCount;
     public bool specialTrigger = false;
     public bool wasSpecial = false;
+
+    public Slider bossHpBar;
+    public TMP_Text bossName;
+
     protected override void Awake()
     {
         base.Awake();
+        bossName.text = enemySO.enemyName;
     }
 
     protected override void OnEnable()

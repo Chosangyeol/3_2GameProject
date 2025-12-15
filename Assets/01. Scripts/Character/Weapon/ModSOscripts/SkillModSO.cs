@@ -16,6 +16,6 @@ public class SkillModSO : WeaponModSO
     public override void DeactivateMod(C_Weapon weapon, C_StatBase owner)
     {
         base.DeactivateMod(weapon, owner);
-        weapon.RemoveSkill(skillSlot);
+        weapon.RemoveSkill(skillSlot, skillSO);
     }
 }

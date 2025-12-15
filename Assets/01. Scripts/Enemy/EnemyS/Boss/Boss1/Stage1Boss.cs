@@ -28,6 +28,9 @@ public class Stage1Boss : BossBase
         base.Awake();
         attackBehavior = new Stage1BossAttack(pattern1Projectile, firePos);
         mapCenter = GameObject.FindGameObjectWithTag("Boss1Center").transform;
+
+        bossHpBar.maxValue = enemySO.maxHp;
+        bossHpBar.value = enemySO.maxHp;
     }
 
     protected override void Update()
@@ -43,7 +46,10 @@ public class Stage1Boss : BossBase
     public override void TakeDamage(int amount)
     {
         Stat.curHp -= amount;
+        bossHpBar.value -= amount;
+
         damagedEffect.Play();
+
         if (Stat.curHp <= Stat.maxHp/2)
         {
             specialTrigger = true;

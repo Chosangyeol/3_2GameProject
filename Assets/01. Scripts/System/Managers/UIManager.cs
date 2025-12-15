@@ -23,8 +23,6 @@ public class UIManager : MonoBehaviour
     [Header("Sub UI-Player List")]
     public TMP_Text hpText;
     public Slider hpSlider;
-    public TMP_Text mpText;
-    public Slider mpSlider;
     public TMP_Text moneyText;
     public GameObject inventoryUI;
 
@@ -47,18 +45,7 @@ public class UIManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        _model = GameObject.FindGameObjectWithTag("Player").GetComponent<C_Model>();
-
-        debugText.text = 
-            "MaxHp : " + _model.GetStat().maxHp + "\n" +
-            "CurHp : " + _model.GetStat().curHp + "\n" +
-            "Damage : " + _model.GetStat().damage + "\n" +
-            "moveSpeed : " + _model.GetStat().moveSpeed + "\n" +
-            "attackSpeed : " + _model.GetStat().attackSpeed + "\n" +
-            "Money : " + _model.GetStat().money + "\n" +
-            "ModingChance : " + _model.GetStat().modingChance + "\n" +
-            "CritRate : " + _model.GetStat().critChance + "\n" +
-            "CritDamage : " + _model.GetStat().critMultiplier;
+        _model = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<C_Model>();
 
     }
 

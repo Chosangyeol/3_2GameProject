@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Player;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,6 +28,9 @@ public class C_Weapon
     public float totalCritDamage;
 
     public int weaponLevel;
+    public event Action<int, SkillSO> OnSkillAdd;
+    public event Action<int> OnSkillRemove;
+
     public Dictionary<int, WeaponModInstance> weaponModded = new Dictionary<int, WeaponModInstance>();
     public Dictionary<int, SkillSO> weaponSkills = new Dictionary<int, SkillSO>();
 
@@ -60,6 +64,7 @@ public class C_Weapon
             if (weaponModded.Count > 0)
                 weaponModded.Clear();
         }
+
     }
     
     public void RestModStats(C_Model owner)
@@ -94,15 +99,17 @@ public class C_Weapon
         {
             weaponSkills.Add(slot, skillSO);
             skillSO.InitSkill(owner);
+            OnSkillAdd?.Invoke(slot, skillSO);
             Debug.Log($"스킬 {skillSO.skillName}이(가) 슬롯 {slot}에 추가되었습니다.");
         }
     }
 
-    public void RemoveSkill(int slot)
+    public void RemoveSkill(int slot, SkillSO skillSO)
     {
         if (weaponSkills.ContainsKey(slot))
         {
             weaponSkills.Remove(slot);
+            OnSkillRemove?.Invoke(slot);
             Debug.Log($"슬롯 {slot}의 스킬이 제거되었습니다.");
         }
     }

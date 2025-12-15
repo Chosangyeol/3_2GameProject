@@ -49,6 +49,9 @@ public class Boss2 : BossBase
         specialWarning = GameObject.FindGameObjectWithTag("Boss2SpecialWarning");
         specialWalls.SetActive(false);
 
+        bossHpBar.maxValue = enemySO.maxHp;
+        bossHpBar.value = enemySO.maxHp;
+
     }
 
     protected override void Update()
@@ -76,6 +79,8 @@ public class Boss2 : BossBase
     {
         Stat.curHp -= amount;
         damagedEffect.Play();
+        bossHpBar.value -= amount;
+
 
         if (Stat.curHp <= Stat.maxHp/2)
         {

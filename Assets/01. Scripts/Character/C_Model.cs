@@ -44,6 +44,8 @@ namespace Player
         public PoolableMono testItem;
         public PoolableMono testItem2;
 
+        public static event Action<C_Model> OnPlayerReady;
+
 
         public C_StatBase GetStat()
         {
@@ -81,6 +83,8 @@ namespace Player
             _anim = GetComponentInChildren<Animator>();
 
             canAttack = false;
+
+            OnPlayerReady?.Invoke(this);
         }
 
         protected virtual void Start()
